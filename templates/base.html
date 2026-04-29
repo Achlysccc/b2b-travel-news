@@ -3,9 +3,8 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <base href="/b2b-travel-news/">
  <title>{% block title %}{{ site_name }}{% endblock %}</title>
- <link rel="stylesheet" href="static/style.css">
+ <link rel="stylesheet" href="{{ base_path }}static/style.css">
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
  {% block extra_head %}{% endblock %}
@@ -14,14 +13,11 @@
 
 {# ══ 侧边栏 ══ #}
 <aside class="sidebar">
- <div class="sidebar-logo">
-  <a href="/">
-   <span class="logo-icon">🏨</span>
-   <span>
-    B2B酒店分销
-    <span class="logo-sub">行业动态</span>
-   </span>
-  </a>
+<div class="sidebar-logo">
+ <a href="{{ base_path }}" class="logo">
+ <span class="logo-icon">🏨</span>
+ <span class="logo-text">B2B酒店分销<span class="logo-sub">行业动态</span></span>
+ </a>
  </div>
 
  {# 行业板块 #}
@@ -81,7 +77,7 @@
 
 {# ══ 顶栏 ══ #}
 <header class="topbar">
- <a href="/" class="topbar-brand">{{ site_name }}</a>
+ <a href="{{ base_path }}" class="topbar-brand">{{ site_name }}</a>
 
  {# 搜索框 #}
  <div class="search-bar">
@@ -133,7 +129,7 @@ if (searchInput) {
   }
   const sectorColors = {hotel:'sr-sector-hotel',flight:'sr-sector-flight',car:'sr-sector-car',travel:'sr-sector-travel'};
   searchResults.innerHTML = matched.map(a => `
-   <div class="search-result-item" onclick="location.href='/sector/${a.sector}.html'">
+   <div class="search-result-item" onclick="location.href='{{ base_path }}sector/'+a.sector+'.html'">
     <div class="sr-title">${a.title}</div>
     <div class="sr-meta">
      <span class="sr-sector ${sectorColors[a.sector]||''}">${a.sector}</span>
