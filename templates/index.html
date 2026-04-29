@@ -105,7 +105,7 @@
      {{ sector_info.icon }} {{ sector_info.label }}
      <span class="sector-count">{{ sector_arts|length }}</span>
     </div>
-    <a href="/sector/{{ sector_id }}.html" class="sector-more">查看全部 →</a>
+    <a href="sector/{{ sector_id }}.html" class="sector-more">查看全部 →</a>
    </div>
 
    {% for a in sector_arts %}
@@ -231,7 +231,7 @@
 <div class="hs-card">
 <div class="hs-card-title">📅 今日日报</div>
 <div style="padding:4px 0 0">
-<a href="/date/{{ today_str }}.html" class="btn-today-archive">
+<a href="date/{{ today_str }}.html" class="btn-today-archive">
 📅 {{ today_display }} · 查看全部动态 →
 </a>
 <p style="font-size:10px;color:var(--text-muted);margin:6px 0 0;">每日 08:00 更新</p>
