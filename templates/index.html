@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% block title %}{{ site_name }} {{ today_display }}{% endblock %}
+{% block extra_head %}
+<style>
+/* index.html 额外样式 */
+.home-page-header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.home-page-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.4px;
+}
+.home-page-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* 行业板块标题 */
+.sector-block { margin-bottom: 32px; }
+.sector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.sector-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  letter-spacing: -0.2px;
+}
+.sector-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--border-light);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.sector-more {
+  font-size: 11px;
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+.sector-more:hover { text-decoration: underline; }
+
+/* 重要度边框指示 */
+.news-card-hierarchical.importance-high { border-left-color: #dc2626; }
+.news-card-hierarchical.importance-mid   { border-left-color: var(--accent-blue); }
+.news-card-hierarchical.importance-low   { border-left-color: var(--border); }
+
+/* 低重要性提示条 */
+.more-notice {
+  background: linear-gradient(135deg, #fefce8, #fef9c3);
+  border: 1px solid #fde047;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 28px;
+  font-size: 12px;
+  color: #854d0e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.more-notice a { color: var(--accent-blue); font-weight: 600; }
+</style>
+{% endblock %}
+
+{% block content %}
+{# 页面标题 #}
+<div class="home-page-header">
+  <div class="home-page-title">📋 {{ site_name }} {{ today_display }}</div>
+  <div class="home-page-sub">{{ weekday_zh }} · {{ today_articles }} 条今日动态 · 覆盖 {{ region_count }} 个地区 · {{ source_count }} 个信息源</div>
+</div>
+
+{# 低重要性提示 #}
+{% if low_imp_count > 0 %}
+<div class="more-notice">
+  💡 <strong>{{ low_imp_count }} 条</strong> 二星及以下动态已下沉到各子版块，感兴趣可按板块/地区/分类查看。
+</div>
+{% endif %}
+
+{# 主布局：左侧文章 + 右侧边栏 #}
+<div class="home-grid">
+
+ {# ══ 左侧：各板块文章（每板块最多5条） ══ #}
+ <div class="hot-articles">
+  <div class="hot-articles-header">
+   <h2>⭐ 重点动态 <span style="font-weight:400;color:var(--text-muted);font-size:12px;">三星及以上 · 每板块最多5条</span></h2>
+  </div>
+
+  {% for sector_id, sector_info in sectors.items() %}
+  {% set sector_arts = articles_by_sector.get(sector_id, []) %}
+  {% if sector_arts %}
+  <div class="sector-block">
+   <div class="sector-header">
+    <div class="sector-title">
+     {{ sector_info.icon }} {{ sector_info.label }}
+     <span class="sector-count">{{ sector_arts|length }}</span>
+    </div>
+    <a href="/sector/{{ sector_id }}.html" class="sector-more">查看全部 →</a>
+   </div>
+
+   {% for a in sector_arts %}
+   <div class="news-card-hierarchical importance-{{ a.importance_level }}">
+{# 重要性星级 #}
+<div class="importance-stars" style="margin-bottom:6px;">
+{% for i in range(5) %}
+<span class="star {% if i < a.importance %}filled{% endif %}">{% if i < a.importance %}★{% else %}☆{% endif %}</span>
+{% endfor %}
+<span style="font-size:10px;color:var(--text-muted);margin-left:4px;">{{ a.importance }}星</span>
+</div>
+
+    {# 元信息行 #}
+    <div class="card-meta-row">
+     <span class="tag tag-sector tag-sector-{{ a.sector }}">{{ sector_info.icon }} {{ sector_info.label }}</span>
+     <span class="tag tag-category">{{ a.category_label }}</span>
+     {% if a.urgency == "breaking" %}<span class="tag tag-breaking">🔴 突发</span>{% endif %}
+     {% if a.urgency == "today" %}<span class="tag tag-today">🟡 今日</span>{% endif %}
+    </div>
+
+    {# 标题/摘要 #}
+    <div class="card-body-text">
+     {% if a.related_companies %}<span class="company-tag">{{ a.related_companies }}</span>{% endif %}
+     {{ a.summary_zh or a.title }}
+    </div>
+
+{# 底部行 #}
+<div class="card-footer-row">
+<span class="cf-region">{{ a.region_flag }} {{ a.region_label }}</span>
+<span>{{ a.time_ago }}</span>
+<span>·</span>
+<span>{{ a.source_name }}</span>
+<span>·</span>
+<a href="{{ a.link }}" target="_blank" class="source-link">阅读原文 ↗</a>
+</div>
+   </div>
+   {% endfor %}
+  </div>
+  {% endif %}
+  {% endfor %}
+
+  {% if not articles_by_sector or articles_by_sector|length == 0 %}
+  <div class="empty-state">
+   <div class="es-icon">📭</div>
+   <div class="es-title">暂无三星及以上动态</div>
+   <div class="es-sub">数据持续采集中，每日 08:00 / 20:00 更新</div>
+  </div>
+  {% endif %}
+ </div>
+
+ {# ══ 右侧边栏 ══ #}
+ <div class="home-sidebar">
+
+  {# 今日统计 #}
+  <div class="hs-card">
+   <div class="hs-card-title">今日概览</div>
+   <div class="today-stats">
+    <div class="today-stat">
+     <div class="ts-num">{{ today_articles }}</div>
+     <div class="ts-label">今日动态</div>
+    </div>
+    <div class="today-stat">
+     <div class="ts-num blue">{{ breaking_count }}</div>
+     <div class="ts-label">突发</div>
+    </div>
+    <div class="today-stat">
+     <div class="ts-num orange">{{ source_count }}</div>
+     <div class="ts-label">监控源</div>
+    </div>
+    <div class="today-stat">
+     <div class="ts-num green">{{ company_count }}</div>
+     <div class="ts-label">涉及公司</div>
+    </div>
+   </div>
+  </div>
+
+  {# 突发新闻速览 #}
+  {% if breaking and breaking|length > 0 %}
+  <div class="hs-card">
+   <div class="hs-card-title">🚨 突发</div>
+   {% for b in breaking[:5] %}
+   <div class="region-digest-item">
+    <div class="rd-header">
+     <span class="rd-flag">{{ b.region_flag }}</span>
+     <span class="rd-name">{{ b.region_label }}</span>
+    <span class="rd-count">{{ b.importance }}★</span>
+    </div>
+    <div class="rd-summary">{{ b.summary_zh or b.title }}</div>
+   </div>
+   {% endfor %}
+  </div>
+  {% endif %}
+
+  {# 地区动态 #}
+  <div class="hs-card">
+   <div class="hs-card-title">🌐 地区动态</div>
+   {% for rd in region_digests[:8] %}
+   <div class="region-digest-item">
+    <div class="rd-header">
+     <span class="rd-flag">{{ rd.flag }}</span>
+     <span class="rd-name">{{ rd.label }}</span>
+     <span class="rd-count">{{ rd.count }}</span>
+    </div>
+    <div class="rd-summary">{{ rd.top_summary }}</div>
+   </div>
+   {% endfor %}
+  </div>
+
+{# 公司追踪 #}
+{% if top_companies and top_companies|length > 0 %}
+<div class="hs-card">
+<div class="hs-card-title">🏢 高频公司</div>
+{% for c in top_companies[:12] %}
+<div class="company-item">
+<span class="ci-name">{{ c.name }}</span>
+<span class="ci-count">{{ c.count }}次</span>
+</div>
+{% endfor %}
+</div>
+{% endif %}
+
+{# 今日日报快捷入口 #}
+<div class="hs-card">
+<div class="hs-card-title">📅 今日日报</div>
+<div style="padding:4px 0 0">
+<a href="/date/{{ today_str }}.html" class="btn-today-archive">
+📅 {{ today_display }} · 查看全部动态 →
+</a>
+<p style="font-size:10px;color:var(--text-muted);margin:6px 0 0;">每日 08:00 更新</p>
+</div>
+</div>
+
+</div>{# end home-sidebar #}
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+# 全局配置
+site:
+  name: "B2B酒店分销行业动态"
+  description: "全球B2B酒店分销行业实时资讯聚合"
+  base_url: "https://b2b-hotel-news.vercel.app"
+  lang: zh-CN
+
+schedule:
+  # 每天 08:00 和 20:00 更新
+  cron_hours: [8, 20]
+
+processing:
+  # AI 摘要最大长度（中文字数）
+  summary_max_length: 80
+  # 重要性评分阈值（>=threshold 标记突发）
+  breaking_threshold: 4
+  # 突发时间窗口（小时）
+  breaking_window_hours: 2
+
+database:
+  path: ./db/news.db
+  # 数据保留天数
+  retention_days: 90
+
+output:
+  path: ./output
+
+categories:
+  - id: tech
+    label: 技术
+  - id: ma
+    label: 并购
+  - id: partnership
+    label: 合作
+  - id: policy
+    label: 政策
+  - id: personnel
+    label: 人事
+  - id: data
+    label: 数据
+  - id: market
+    label: 市场

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}突发动态 - {{ site_name }}{% endblock %}
+{% block content %}
+
+<section class="breaking-header">
+    <h1>🔴 突发动态</h1>
+    <p class="subtitle">近72小时重要性≥4的行业重大事件</p>
+</section>
+
+<section class="news-stream">
+    {% for a in articles %}
+    <article class="news-card news-card-breaking">
+        <div class="card-meta">
+            <span class="tag tag-region">{{ a.region_flag }} {{ a.region_label }}</span>
+            <span class="tag tag-category tag-{{ a.category }}">{{ a.category_label }}</span>
+            <span class="tag tag-breaking">🔴 突发</span>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title"><a href="{{ a.link }}" target="_blank" rel="noopener">{{ a.title }}</a></h3>
+            <p class="card-summary">{{ a.summary_zh }}</p>
+        </div>
+        <div class="card-footer">
+            <span class="card-source">{{ a.source_name }}</span>
+            {% if a.related_companies %}<span class="card-companies">🏢 {{ a.related_companies }}</span>{% endif %}
+            <span class="card-time">{{ a.time_ago }}</span>
+        </div>
+    </article>
+    {% endfor %}
+
+    {% if not articles %}
+    <div class="empty-state">
+        <p>当前无突发动态</p>
+        <p style="font-size:12px; margin-top:8px;">风平浪静</p>
+    </div>
+    {% endif %}
+</section>
+
+{% endblock %}
