@@ -2,8 +2,11 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
+  schedule:
+    # 每天北京时间 08:00 = UTC 00:00
+    - cron: '0 0 * * *'
 
 jobs:
   build-and-deploy:
