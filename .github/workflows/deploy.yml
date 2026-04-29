@@ -5,7 +5,6 @@ on:
     branches: [master]
   workflow_dispatch:
   schedule:
-    # 每天北京时间 08:00 = UTC 00:00
     - cron: '0 0 * * *'
 
 jobs:
@@ -26,18 +25,15 @@ jobs:
       - name: Install dependencies
         run: uv pip install --system -r requirements.txt
 
-- name: Build site
- env:
- PYTHONPATH: .
- run: |
-  uv pip install --system PyYAML jinja2
-  python3 -c "from generator.site_builder import build_site; build_site()"
+      - name: Build site
+        run: |
+          PYTHONPATH=. python3 -c "from generator.site_builder import build_site; build_site()"
 
-- name: Copy output to docs
- run: cp -r output docs
+      - name: Copy output to docs
+        run: cp -r output docs
 
- - name: Deploy to GitHub Pages
- uses: peaceiris/actions-gh-pages@v4
- with:
- github_token: ${{ secrets.GITHUB_TOKEN }}
- publish_dir: ./docs
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
