@@ -1,4 +1,4 @@
-# B2B酒店分销行业信息源配置
+# B2B旅游分销行业信息源配置
 # 按 region 分组，每个源包含 name, url, type(rss/scrape/api), lang
 # RSS URL 均经过验证可用
 

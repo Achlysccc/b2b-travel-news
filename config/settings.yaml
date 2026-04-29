@@ -1,7 +1,7 @@
 # 全局配置
 site:
-  name: "B2B酒店分销行业动态"
-  description: "全球B2B酒店分销行业实时资讯聚合"
+  name: "B2B旅游分销"
+  description: "全球B2B旅游分销行业实时资讯聚合"
   base_url: "https://b2b-hotel-news.vercel.app"
   lang: zh-CN
 

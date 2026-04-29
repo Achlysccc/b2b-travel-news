@@ -430,6 +430,7 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
     # 首页
     index_html = env.get_template("index.html").render(
         site_name=site_name, site_desc=site_desc, updated_at=now_str,
+ base_path="/b2b-travel-news/",
         today=today_str, weekday_zh=weekday_zh, today_display=today_display, today_day=today_day,
         digest_lines=digest_lines, archive_days=archive_days,
         all_articles=all_articles, breaking=breaking, region_stats=region_stats,
@@ -456,6 +457,7 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
         sector_articles = [a for a in sector_all if a.get("sector") == sector_id]
         sector_html = env.get_template("sector.html").render(
             site_name=site_name, site_desc=site_desc, updated_at=now_str,
+ base_path="/b2b-travel-news/",
             sector_id=sector_id, sector_label=sector_info["label"], sector_icon=sector_info["icon"],
             articles=sector_articles, region_stats=region_stats,
             sectors=SECTOR_DEFS, articles_by_sector=articles_by_sector_all,
@@ -478,6 +480,7 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
         region_breaking = get_breaking_articles(conn, hours=72)
         region_html = env.get_template("region.html").render(
             site_name=site_name, site_desc=site_desc, updated_at=now_str,
+ base_path="/b2b-travel-news/",
             region_key=region_key, region_label=region_data["label"],
             region_flag=region_data.get("flag", ""),
             articles=region_articles, breaking=region_breaking, region_stats=region_stats,
@@ -498,6 +501,7 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
         _enrich_articles(cat_articles)
         cat_html = env.get_template("category.html").render(
             site_name=site_name, site_desc=site_desc, updated_at=now_str,
+ base_path="/b2b-travel-news/",
             category_id=cat_id, category_label=cat_label,
             articles=cat_articles, region_stats=region_stats,
             categories=CATEGORY_LABELS, sectors=SECTOR_DEFS,
@@ -514,6 +518,7 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
     _enrich_articles(breaking_all)
     breaking_html = env.get_template("breaking.html").render(
         site_name=site_name, site_desc=site_desc, updated_at=now_str,
+ base_path="/b2b-travel-news/",
         articles=breaking_all, region_stats=region_stats,
         categories=CATEGORY_LABELS, sectors=SECTOR_DEFS,
         CATEGORY_LABELS=CATEGORY_LABELS, CATEGORY_ICONS=CATEGORY_ICONS,
@@ -533,6 +538,7 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
             articles_by_sector_day = _group_by_sector(day_arts)
             day_html = env.get_template("date.html").render(
                 site_name=site_name, site_desc=site_desc, updated_at=now_str,
+ base_path="/b2b-travel-news/",
                 date_label=d_entry["date"], weekday=d_entry["weekday_short"],
                 articles=day_arts, articles_by_sector=articles_by_sector_day,
                 region_stats=region_stats,
