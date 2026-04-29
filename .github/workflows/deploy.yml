@@ -33,8 +33,11 @@ jobs:
           source .venv/bin/activate || true
           python3 -c "from generator.site_builder import build_site; build_site()"
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+- name: Copy output to docs
+ run: cp -r output docs
+
+ - name: Deploy to GitHub Pages
+ uses: peaceiris/actions-gh-pages@v4
+ with:
+ github_token: ${{ secrets.GITHUB_TOKEN }}
+ publish_dir: ./docs
