@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>突发动态 - B2B旅游分销</title>
+ <link rel="stylesheet" href="/b2b-travel-news/static/style.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+</head>
+<body>
+
+
+<aside class="sidebar">
+<div class="sidebar-logo">
+ <span class="logo-icon">🏨</span>
+ <span class="logo-text">B2B旅游分销<span class="logo-sub">行业动态</span></span>
+ </div>
+
+ <div class="sidebar-section">
+ <a href="https://achlysccc.github.io/b2b-travel-news/" class="btn-home" target="_self">
+ 🏠 首页
+ </a>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">行业板块</div>
+  <ul class="sidebar-nav">
+   
+   <li class="sidebar-item">
+    <a href="sector/hotel.html" class="">
+     <span class="si-icon">🏨</span>
+     酒店
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/flight.html" class="">
+     <span class="si-icon">✈️</span>
+     机票
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/car.html" class="">
+     <span class="si-icon">🚗</span>
+     用车
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/travel.html" class="">
+     <span class="si-icon">🗺️</span>
+     旅游
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+  </ul>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">内容分类</div>
+  <ul class="sidebar-nav">
+   
+   <li class="sidebar-item">
+    <a href="category/tech.html" class="">
+     <span class="si-icon">💻</span>
+     技术
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/ma.html" class="">
+     <span class="si-icon">🤝</span>
+     并购
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/partnership.html" class="">
+     <span class="si-icon">🔗</span>
+     合作
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/policy.html" class="">
+     <span class="si-icon">📜</span>
+     政策
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/personnel.html" class="">
+     <span class="si-icon">👤</span>
+     人事
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/data.html" class="">
+     <span class="si-icon">📊</span>
+     数据
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/market.html" class="">
+     <span class="si-icon">📈</span>
+     市场
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="breaking.html" class="active">
+     <span class="si-icon">🚨</span>
+     突发
+     
+    </a>
+   </li>
+  </ul>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">地区</div>
+  <ul class="sidebar-nav">
+   <li class="sidebar-item" style="padding: 0 18px;">
+    <div class="regions-grid">
+     
+    </div>
+   </li>
+  </ul>
+ </div>
+</aside>
+
+
+<header class="topbar">
+ <a href="https://achlysccc.github.io/b2b-travel-news/" class="topbar-brand">B2B旅游分销</a>
+
+ 
+ <div class="search-bar">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="searchInput" placeholder="搜索公司/地区/关键词…" autocomplete="off">
+  <div class="search-results" id="searchResults"></div>
+ </div>
+
+ <div class="topbar-right">
+  <span class="topbar-stat">
+   <strong></strong> 条今日动态
+  </span>
+  <span class="topbar-time">2026-04-29 18:54</span>
+ </div>
+</header>
+
+
+<div class="main-wrapper">
+ <div class="page-content">
+  
+
+<section class="breaking-header">
+    <h1>🔴 突发动态</h1>
+    <p class="subtitle">近72小时重要性≥4的行业重大事件</p>
+</section>
+
+<section class="news-stream">
+    
+
+    
+    <div class="empty-state">
+        <p>当前无突发动态</p>
+        <p style="font-size:12px; margin-top:8px;">风平浪静</p>
+    </div>
+    
+</section>
+
+
+ </div>
+ <footer class="footer">
+  <span>B2B旅游分销</span>
+  <span>·</span>
+  <span>全球B2B旅游分销行业实时资讯聚合</span>
+  <span>·</span>
+  <span>每日 08:00 / 20:00 更新</span>
+ </footer>
+</div>
+
+<script>
+// 搜索功能（静态搜索）
+const articles = [
+
+];
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+if (searchInput) {
+ searchInput.addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  if (!q) { searchResults.classList.remove('open'); return; }
+  const matched = articles.filter(a => a.title.toLowerCase().includes(q)).slice(0, 8);
+  if (!matched.length) {
+   searchResults.innerHTML = '<div style="padding:14px 16px;color:#71717a;font-size:12px;">无结果</div>';
+   searchResults.classList.add('open');
+   return;
+  }
+  const sectorColors = {hotel:'sr-sector-hotel',flight:'sr-sector-flight',car:'sr-sector-car',travel:'sr-sector-travel'};
+  searchResults.innerHTML = matched.map(a => `
+   <div class="search-result-item" onclick="location.href='/b2b-travel-news/sector/'+a.sector+'.html'">
+    <div class="sr-title">${a.title}</div>
+    <div class="sr-meta">
+     <span class="sr-sector ${sectorColors[a.sector]||''}">${a.sector}</span>
+     ${a.region} · ${a.importance}星
+    </div>
+   </div>`).join('');
+  searchResults.classList.add('open');
+ });
+ document.addEventListener('click', e => {
+  if (!e.target.closest('.search-bar')) searchResults.classList.remove('open');
+ });
+}
+</script>
+
+</body>
+</html>

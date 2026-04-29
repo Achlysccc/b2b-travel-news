@@ -1,0 +1,989 @@
+/* ════════════════════════════════════════
+B2B 酒店分销行业动态 · 全局样式 v2
+参考：财经信息聚合平台风格
+═══════════════════════════════════════ */
+
+:root {
+  --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bg-page: #f5f6f8;
+  --bg-card: #ffffff;
+  --bg-header: #0f1923;
+  --bg-sidebar: #0f1923;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --text-sidebar: #c9d1d9;
+  --text-sidebar-active: #ffffff;
+  --accent-blue: #1d4ed8;
+  --accent-blue-light: #dbeafe;
+  --accent-blue-dark: #1e3a8a;
+  --accent-red: #dc2626;
+  --accent-orange: #ea580c;
+  --accent-green: #059669;
+  --accent-green-light: #d1fae5;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.12);
+  --radius: 10px;
+  --radius-lg: 14px;
+  --sidebar-width: 220px;
+  --header-height: 60px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ════════════════════════════════════════
+ 顶栏（右侧主内容区顶部）
+═══════════════════════════════════════ */
+.topbar {
+  background: var(--bg-header);
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  gap: 20px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.topbar-brand {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f4f4f5;
+  text-decoration: none;
+  flex-shrink: 0;
+  letter-spacing: -0.2px;
+}
+.topbar-brand:hover { color: #fff; text-decoration: none; }
+
+/* 搜索框 */
+.search-bar {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+.search-bar input {
+  width: 100%;
+  height: 36px;
+  padding: 0 16px 0 38px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.08);
+  color: #f4f4f5;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+.search-bar input::placeholder { color: rgba(255,255,255,.35); }
+.search-bar input:focus {
+  border-color: rgba(255,255,255,.3);
+  background: rgba(255,255,255,.12);
+}
+.search-bar .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,.35);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* 搜索结果下拉 */
+.search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #1a2634;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  max-height: 420px;
+  overflow-y: auto;
+  display: none;
+  z-index: 300;
+}
+.search-results.open { display: block; }
+.search-result-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  transition: background .1s;
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: rgba(255,255,255,.07); }
+.search-result-item .sr-title {
+  font-size: 13px;
+  color: #e4e4e7;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.search-result-item .sr-meta {
+  font-size: 11px;
+  color: #71717a;
+}
+.search-result-item .sr-sector {
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-weight: 600;
+}
+.sr-sector-hotel { background: #7c3aed20; color: #a78bfa; }
+.sr-sector-flight { background: #1d4ed820; color: #93c5fd; }
+.sr-sector-car { background: #05966920; color: #6ee7b7; }
+.sr-sector-travel { background: #ea580c20; color: #fdba74; }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.topbar-stat {
+  font-size: 11px;
+  color: #71717a;
+  white-space: nowrap;
+}
+.topbar-stat strong {
+  color: #e4e4e7;
+  font-weight: 600;
+}
+.topbar-time {
+  font-size: 12px;
+  color: #52525b;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ════════════════════════════════════════
+ 侧边栏
+═══════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-sidebar);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  flex-shrink: 0;
+}
+.sidebar-logo a {
+  font-size: 13px;
+  font-weight: 800;
+  color: #f4f4f5;
+  text-decoration: none;
+  letter-spacing: -0.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sidebar-logo a:hover { color: #fff; text-decoration: none; }
+.sidebar-logo .logo-icon {
+  font-size: 18px;
+}
+.sidebar-logo .logo-sub {
+  font-size: 10px;
+  color: #52525b;
+  font-weight: 400;
+  display: block;
+  margin-top: 1px;
+}
+
+.sidebar-section {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.sidebar-section:last-child { border-bottom: none; }
+
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #52525b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 18px 6px;
+}
+
+.sidebar-nav { list-style: none; }
+
+.sidebar-item a,
+.sidebar-item > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 18px;
+  font-size: 13px;
+  color: var(--text-sidebar);
+  text-decoration: none;
+  transition: color .12s, background .12s;
+  cursor: pointer;
+}
+.sidebar-item a:hover {
+  color: var(--text-sidebar-active);
+  background: rgba(255,255,255,.05);
+  text-decoration: none;
+}
+.sidebar-item a.active {
+  color: var(--text-sidebar-active);
+  background: rgba(255,255,255,.09);
+  font-weight: 600;
+}
+.sidebar-item .si-icon { font-size: 14px; flex-shrink: 0; }
+.sidebar-item .si-count {
+  margin-left: auto;
+  font-size: 10px;
+  background: rgba(255,255,255,.1);
+  color: #a1a1aa;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.sidebar-item a.active .si-count {
+  background: rgba(255,255,255,.15);
+  color: #d4d4d8;
+}
+
+/* 子导航（展开） */
+.sidebar-sub {
+  list-style: none;
+  padding-left: 18px;
+}
+.sidebar-sub .sidebar-item a {
+  font-size: 12px;
+  padding: 5px 10px;
+  color: #71717a;
+}
+.sidebar-sub .sidebar-item a:hover { color: var(--text-sidebar); }
+.sidebar-sub .sidebar-item a.active { color: var(--text-sidebar-active); }
+
+/* 地区子项目 */
+.regions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 4px 12px;
+}
+.regions-grid a {
+  font-size: 11px;
+  color: #71717a;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: color .1s, background .1s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.regions-grid a:hover { color: var(--text-sidebar); background: rgba(255,255,255,.05); }
+.regions-grid a.active { color: var(--text-sidebar-active); }
+.regions-grid a .rg-flag { font-size: 12px; }
+
+/* ════════════════════════════════════════
+ 主内容区
+═══════════════════════════════════════ */
+.main-wrapper {
+  margin-left: var(--sidebar-width);
+  padding-top: var(--header-height);
+  min-height: 100vh;
+}
+
+.page-content {
+  padding: 28px 32px 60px;
+  max-width: 1200px;
+}
+
+/* ════════════════════════════════════════
+ 首页——日报布局
+═══════════════════════════════════════ */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* 核心动态（左侧） */
+.hot-articles { }
+
+.hot-articles-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.hot-articles-header h2 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+.hot-articles-header .ha-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.hot-articles-header .ha-meta strong { color: var(--text-secondary); font-weight: 600; }
+
+/* 侧边——今日总览 */
+.home-sidebar { }
+
+.home-sidebar .hs-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.hs-card-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 14px;
+}
+
+/* 今日统计 */
+.today-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.today-stat {
+  background: var(--bg-page);
+  border-radius: var(--radius);
+  padding: 12px;
+  text-align: center;
+}
+.today-stat .ts-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.today-stat .ts-num.orange { color: var(--accent-orange); }
+.today-stat .ts-num.blue { color: var(--accent-blue); }
+.today-stat .ts-num.green { color: var(--accent-green); }
+.today-stat .ts-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* 地区动态列表 */
+.region-digests { }
+.region-digest-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.region-digest-item:last-child { border-bottom: none; }
+.rd-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+.rd-flag { font-size: 13px; }
+.rd-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.rd-count {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--border-light);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+.rd-summary {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 公司追踪 */
+.company-list { }
+.company-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 12px;
+}
+.company-item:last-child { border-bottom: none; }
+.company-item .ci-name { color: var(--accent-green); font-weight: 600; }
+.company-item .ci-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--border-light);
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+/* ════════════════════════════════════════
+ 新闻卡片（通用）
+═══════════════════════════════════════ */
+.news-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  transition: box-shadow .15s, border-color .15s, transform .15s;
+}
+.news-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+/* 首页——重要卡片（大卡片） */
+.news-card-hierarchical {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  transition: box-shadow .15s, border-color .15s;
+  border-left: 3px solid transparent;
+}
+.news-card-hierarchical:hover {
+  box-shadow: var(--shadow-md);
+}
+.news-card-hierarchical.importance-high {
+  border-left-color: var(--accent-red);
+}
+.news-card-hierarchical.importance-mid {
+  border-left-color: var(--accent-blue);
+}
+.news-card-hierarchical.importance-low {
+  border-left-color: var(--border);
+}
+
+/* 重要度星级 */
+.importance-stars {
+  display: inline-flex;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+.star { font-size: 11px; color: #e5e7eb; }
+.star.filled { color: #f59e0b; }
+
+/* 卡片元信息行 */
+.card-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+.tag-sector {
+  background: #f0fdf4;
+  color: #15803d;
+}
+.tag-sector-hotel { background: #faf5ff; color: #7c3aed; }
+.tag-sector-flight { background: #eff6ff; color: #1d4ed8; }
+.tag-sector-car { background: #f0fdf4; color: #15803d; }
+.tag-sector-travel { background: #fff7ed; color: #c2410c; }
+
+.tag-category {
+  background: var(--border-light);
+  color: var(--text-muted);
+}
+.tag-breaking { background: #fef2f2; color: #dc2626; }
+.tag-today { background: #fffbeb; color: #d97706; }
+
+/* 卡片标题 */
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 6px;
+  letter-spacing: -0.2px;
+}
+.card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.card-title a:hover { color: var(--accent-blue); }
+
+/* 卡片正文 */
+.card-body-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+
+/* 公司名 */
+.company-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-green);
+  background: var(--accent-green-light);
+  padding: 1px 7px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+}
+
+/* 卡片底部行 */
+.card-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.card-footer-row .cf-region {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--border-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.card-footer-row .cf-link {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+.card-footer-row .cf-link:hover { text-decoration: underline; }
+
+.source-link {
+ font-size: 11px;
+ color: var(--accent-blue);
+ text-decoration: none;
+ font-weight: 500;
+}
+.source-link:hover { text-decoration: underline; }
+
+/* ════════════════════════════════════════
+ 子页面——页面头部
+═══════════════════════════════════════ */
+.page-header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.page-header-flex {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.page-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+.page-title-icon { font-size: 20px; margin-right: 8px; }
+.page-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.page-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+.page-meta strong { color: var(--text-secondary); font-weight: 600; }
+
+/* 筛选栏 */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 20px;
+}
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.filter-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.filter-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all .12s;
+}
+.filter-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+.filter-btn.active {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #fff;
+}
+.filter-btn.breaking { border-color: #fca5a5; color: #dc2626; }
+.filter-btn.breaking.active { background: #dc2626; border-color: #dc2626; color: #fff; }
+
+/* ════════════════════════════════════════
+ 子页面——新闻流（卡片列表）
+═══════════════════════════════════════ */
+.news-list { }
+
+.news-list-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  transition: box-shadow .15s, border-color .15s;
+}
+.news-list-item:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: #d1d5db;
+}
+.news-list-item.is-breaking {
+  border-left: 3px solid var(--accent-red);
+}
+.news-list-item.is-today {
+  border-left: 3px solid #f59e0b;
+}
+
+/* 列表项内布局 */
+.nli-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  flex-wrap: wrap;
+}
+.nli-sector {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+.nli-sector-hotel { background: #faf5ff; color: #7c3aed; }
+.nli-sector-flight { background: #eff6ff; color: #1d4ed8; }
+.nli-sector-car { background: #f0fdf4; color: #15803d; }
+.nli-sector-travel { background: #fff7ed; color: #c2410c; }
+
+.nli-category {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--border-light);
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+.nli-urgency {
+  font-size: 10px;
+  font-weight: 700;
+}
+.nli-importance { margin-left: auto; }
+.nli-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 5px;
+  letter-spacing: -0.2px;
+}
+.nli-body {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 9px;
+}
+.nli-company {
+  display: inline;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-green);
+}
+.nli-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.nli-region {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--border-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.nli-footer .nli-link {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+.nli-footer .nli-link:hover { text-decoration: underline; }
+
+/* ════════════════════════════════════════
+ 突发页面
+═══════════════════════════════════════ */
+.breaking-banner {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.breaking-banner .bb-icon { font-size: 28px; }
+.breaking-banner .bb-text { flex: 1; }
+.breaking-banner .bb-title {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+.breaking-banner .bb-count { font-size: 12px; color: #fecaca; }
+
+/* ════════════════════════════════════════
+ 翻页 / 加载更多
+═══════════════════════════════════════ */
+.load-more {
+  text-align: center;
+  padding: 24px;
+}
+.load-more-btn {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 28px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.load-more-btn:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+/* ════════════════════════════════════════
+ 空状态
+═══════════════════════════════════════ */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+}
+.empty-state .es-icon { font-size: 40px; margin-bottom: 12px; opacity: .4; }
+.empty-state .es-title { font-size: 15px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+.empty-state .es-sub { font-size: 12px; }
+
+/* ════════════════════════════════════════
+ Footer
+═══════════════════════════════════════ */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 16px 32px;
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ════════════════════════════════════════
+ 响应式
+═══════════════════════════════════════ */
+@media (max-width: 1100px) {
+  :root { --sidebar-width: 200px; }
+}
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  :root { --sidebar-width: 0; }
+  .topbar { left: 0; }
+  .home-grid { grid-template-columns: 1fr; }
+  .home-sidebar { display: none; }
+  .page-content { padding: 20px 16px 40px; }
+  .page-header-flex { flex-direction: column; }
+}
+
+
+/* 首页快捷按钮 */
+.btn-home {
+ display: block;
+ padding: 8px 12px;
+ background: var(--accent);
+ color: #fff;
+ border-radius: 6px;
+ font-size: 13px;
+ font-weight: 600;
+ text-decoration: none;
+ transition: background 0.2s;
+ text-align: center;
+}
+.btn-home:hover { background: var(--accent-dark); filter: brightness(1.1); }
+
+/* 侧边栏 logo（纯展示，不可点击） */
+.sidebar-logo {
+ padding: 0 18px 8px;
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ cursor: default;
+}
+.sidebar-logo .logo-icon { font-size: 20px; }
+.sidebar-logo .logo-text { font-size: 14px; font-weight: 700; color: #e2e8f0; }
+.sidebar-logo .logo-sub { font-size: 11px; font-weight: 400; color: #94a3b8; margin-left: 4px; }
+
+/* 今日日报快捷按钮 */
+.btn-today-archive {
+ display: block;
+ padding: 8px 12px;
+ background: var(--card-bg);
+ border: 1px solid var(--accent);
+ border-radius: 6px;
+ color: var(--accent);
+ font-size: 12px;
+ font-weight: 500;
+ text-decoration: none;
+ transition: background 0.2s;
+}
+.btn-today-archive:hover { background: var(--accent-bg); }
+
+@media (max-width: 600px) {
+ .page-content { padding: 16px 12px 40px; }
+ .today-stats { grid-template-columns: 1fr 1fr; }
+}
+
+/* ════════════════════════════════════════
+ 60天日报历归档
+═══════════════════════════════════════ */
+.archive-calendar { margin-top: 8px; }
+.ac-month-label {
+ font-size: 11px;
+ font-weight: 600;
+ color: var(--text-muted);
+ margin: 10px 0 5px;
+}
+.ac-month-label:first-child { margin-top: 0; }
+.ac-days {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 3px;
+}
+.ac-day {
+ width: 26px;
+ height: 26px;
+ border-radius: 4px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ font-size: 10px;
+ text-decoration: none;
+ cursor: pointer;
+ background: var(--bg-secondary);
+ color: var(--text-secondary);
+ transition: background 0.15s;
+}
+.ac-day:hover {
+ background: var(--accent-blue);
+ color: #fff;
+}
+.ac-day:hover .ac-count { color: #fff; }
+.ac-day.ac-empty {
+ opacity: 0.3;
+ cursor: default;
+}
+.ac-day.ac-empty:hover {
+ background: var(--bg-secondary);
+ color: var(--text-secondary);
+}
+.ac-day.ac-today {
+ border: 2px solid #f59e0b;
+ background: #fffbeb;
+}
+.ac-day.ac-today:hover {
+ background: var(--accent-blue);
+}
+.ac-day.ac-weekend {
+ background: #f3f4f6;
+}
+.ac-day.ac-weekend.ac-today {
+ background: #fffbeb;
+}
+.ac-num {
+ font-weight: 600;
+ line-height: 1;
+}
+.ac-count {
+ font-size: 8px;
+ color: var(--accent-blue);
+ font-weight: 700;
+ line-height: 1;
+ margin-top: 1px;
+}
