@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}📅 {{ date_label }} {{ weekday }} - {{ site_name }}{% endblock %}
+{% block content %}
+
+{# 页面头部 #}
+<div class="page-header">
+ <div class="page-header-flex">
+ <div>
+ <h1 class="page-title">📅 {{ date_label }} {{ weekday }}</h1>
+ <div class="page-subtitle">当日动态 · 按重要性排序</div>
+ <div class="page-meta">共 <strong>{{ articles|length }}</strong> 条动态</div>
+ </div>
+ <div style="font-size:40px;">📅</div>
+ </div>
+</div>
+
+{# 筛选栏 #}
+<div class="filter-bar">
+ <div class="filter-group">
+ <span class="filter-label">排序</span>
+ <button class="filter-btn active" data-sort="importance" onclick="sortArticles(this)">按重要性</button>
+ <button class="filter-btn" data-sort="time" onclick="sortArticles(this)">按时间</button>
+ </div>
+</div>
+
+{# 文章列表 #}
+<div class="news-list" id="articleList">
+ {% for a in articles %}
+ <div class="news-list-item"
+ data-importance="{{ a.importance_level }}" data-urgency="{{ a.urgency }}" data-imp="{{ a.importance }}">
+ <div class="nli-header">
+ <span class="nli-sector nli-sector-{{ a.sector }}">{{ sectors.get(a.sector, {}).icon }} {{ sectors.get(a.sector, {}).label }}</span>
+ <span class="nli-category">{{ a.category_label }}</span>
+ {% if a.urgency == "breaking" %}<span class="tag tag-breaking">🔴 突发</span>{% endif %}
+ {% if a.urgency == "today" %}<span class="tag tag-today">🟡 今日</span>{% endif %}
+ <span class="nli-importance" style="margin-left:auto;">
+ {% for i in range(5) %}<span style="font-size:11px;color:{% if i < a.importance %}#f59e0b{% else %}#e5e7eb{% endif %};">{% if i < a.importance %}★{% else %}☆{% endif %}</span>{% endfor %}
+ <span style="font-size:10px;color:var(--text-muted);margin-left:2px;">{{ a.importance }}星</span>
+ </span>
+ </div>
+
+ <div class="nli-body">
+ {% if a.related_companies %}<span class="nli-company">{{ a.related_companies }}</span>：{% endif %}
+ {{ a.summary_zh or a.title }}
+ </div>
+
+ <div class="nli-footer">
+ <span class="nli-region">{{ a.region_flag }} {{ a.region_label }}</span>
+ <span>·</span>
+ <span>{{ a.source_name }}</span>
+ <span>·</span>
+ <span>{{ a.time_ago }}</span>
+ <span style="margin-left:auto;"><a href="{{ a.link }}" target="_blank" class="source-link">阅读原文 ↗</a></span>
+ </div>
+ </div>
+ {% endfor %}
+
+ {% if not articles %}
+ <div class="empty-state">
+ <div class="es-icon">📭</div>
+ <div class="es-title">暂无当日动态</div>
+ <div class="es-sub">数据持续采集中</div>
+ </div>
+ {% endif %}
+</div>
+
+<script>
+let currentSort = 'importance';
+
+function sortArticles(btn) {
+ btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+ btn.classList.add('active');
+ currentSort = btn.dataset.sort;
+ applySort();
+}
+
+function applySort() {
+ const items = Array.from(document.querySelectorAll('.news-list-item'));
+ items.sort((a, b) => {
+ if (currentSort === 'importance') {
+ const impA = parseInt(a.dataset.imp || '0');
+ const impB = parseInt(b.dataset.imp || '0');
+ return impB - impA;
+ } else {
+ return 0;
+ }
+ });
+ const list = document.getElementById('articleList');
+ items.forEach(item => list.appendChild(item));
+}
+</script>
+{% endblock %}
