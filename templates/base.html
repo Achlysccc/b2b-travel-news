@@ -19,7 +19,7 @@
  </div>
 
  <div class="sidebar-section">
- <a href="index.html" class="btn-home">
+ <a href="/b2b-travel-news/" class="btn-home">
  🏠 首页
  </a>
  </div>
@@ -30,7 +30,7 @@
   <ul class="sidebar-nav">
    {% for sid, sinfo in sectors.items() %}
    <li class="sidebar-item">
-    <a href="sector/{{ sid }}.html" class="{% if current_sector == sid %}active{% endif %}">
+    <a href="/b2b-travel-news/sector/{{ sid }}.html" class="{% if current_sector == sid %}active{% endif %}">
      <span class="si-icon">{{ sinfo.icon }}</span>
      {{ sinfo.label }}
      <span class="si-count">{{ articles_by_sector.get(sid, [])|length }}</span>
@@ -46,14 +46,14 @@
   <ul class="sidebar-nav">
    {% for cid, clabel in CATEGORY_LABELS.items() %}
    <li class="sidebar-item">
-    <a href="category/{{ cid }}.html" class="{% if current_category == cid %}active{% endif %}">
+    <a href="/b2b-travel-news/category/{{ cid }}.html" class="{% if current_category == cid %}active{% endif %}">
      <span class="si-icon">{{ CATEGORY_ICONS.get(cid, '') }}</span>
      {{ clabel }}
     </a>
    </li>
    {% endfor %}
    <li class="sidebar-item">
-    <a href="breaking.html" class="{% if page_type == 'breaking' %}active{% endif %}">
+    <a href="/b2b-travel-news/breaking.html" class="{% if page_type == 'breaking' %}active{% endif %}">
      <span class="si-icon">🚨</span>
      突发
      {% if breaking_count > 0 %}<span class="si-count">{{ breaking_count }}</span>{% endif %}
@@ -69,7 +69,7 @@
    <li class="sidebar-item" style="padding: 0 18px;">
     <div class="regions-grid">
      {% for rs in region_stats[:22] %}
-     <a href="region/{{ rs.region }}.html" class="{% if current_region == rs.region %}active{% endif %}">
+     <a href="/b2b-travel-news/region/{{ rs.region }}.html" class="{% if current_region == rs.region %}active{% endif %}">
       <span class="rg-flag">{{ rs.region_flag }}</span>{{ rs.region_label }}
      </a>
      {% endfor %}
@@ -81,7 +81,7 @@
 
 {# ══ 顶栏 ══ #}
 <header class="topbar">
- <a href="index.html" class="topbar-brand">{{ site_name }}</a>
+ <a href="/b2b-travel-news/" class="topbar-brand">{{ site_name }}</a>
 
  {# 搜索框 #}
  <div class="search-bar">
