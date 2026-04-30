@@ -1,0 +1,465 @@
+# B2B旅游分销行业信息源配置
+# 按 region 分组，每个源包含 name, url, type(rss/scrape/api), lang
+# RSS URL 均经过验证可用
+
+regions:
+  north-america:
+    label: 北美
+    flag: 🇺🇸
+    sources:
+      - name: Skift
+        url: https://skift.com/feed/
+        type: rss
+        lang: en
+      - name: PhocusWire
+        url: https://www.phocuswire.com/feed
+        type: rss
+        lang: en
+      - name: Hospitality Net
+        url: https://www.hospitalitynet.org/rss/news.xml
+        type: rss
+        lang: en
+      - name: Hotel-Online
+        url: https://www.hotel-online.com/feed/
+        type: rss
+        lang: en
+      - name: Travel Weekly US
+        url: https://www.travelweekly.com/rssfeed/TravelNews.xml
+        type: rss
+        lang: en
+      - name: Hotel News Now
+        url: https://www.hotelnewsnow.com/rss/headlines
+        type: rss
+        lang: en
+      - name: BTN
+        url: https://www.businesstravelnews.com/RSS/News.xml
+        type: rss
+        lang: en
+      - name: LODGING
+        url: https://www.lodgingmagazine.com/feed/
+        type: rss
+        lang: en
+      - name: Hotel Management
+        url: https://www.hotelmanagement.net/feed
+        type: rss
+        lang: en
+      - name: Hospitality Technology
+        url: https://hospitalitytech.com/rss
+        type: rss
+        lang: en
+
+  uk-ireland:
+    label: 英国 & 爱尔兰
+    flag: 🇬🇧
+    sources:
+      - name: Business Traveller UK
+        url: https://www.businesstraveller.com/feed/
+        type: rss
+        lang: en
+      - name: Travel Weekly UK
+        url: https://www.travelweekly.co.uk/rss/news
+        type: rss
+        lang: en
+      - name: The Caterer
+        url: https://www.thecaterer.com/rss.xml
+        type: rss
+        lang: en
+      - name: Hotel Analyst
+        url: https://hotelanalyst.co.uk/feed/
+        type: rss
+        lang: en
+      - name: Sleeper Magazine
+        url: https://sleepermagazine.com/feed/
+        type: rss
+        lang: en
+
+  germany-dach:
+    label: 德语区
+    flag: 🇩🇪
+    sources:
+      - name: Touristik Aktuell
+        url: https://www.touristik-aktuell.de/rss/news.xml
+        type: rss
+        lang: de
+      - name: fvw
+        url: https://www.fvw.de/rss.xml
+        type: rss
+        lang: de
+      - name: Hospitality Inside
+        url: https://www.hospitalityinside.com/news/rss
+        type: rss
+        lang: de
+      - name: AHGZ
+        url: https://www.ahgz.de/rss/ahgz_rss.xml
+        type: rss
+        lang: de
+      - name: Touristik Report
+        url: https://www.touristikreport.de/feed/
+        type: rss
+        lang: de
+
+  france:
+    label: 法国
+    flag: 🇫🇷
+    sources:
+      - name: TourMag
+        url: https://www.tourmag.com/rss/actu.xml
+        type: rss
+        lang: fr
+      - name: L'Hôtellerie
+        url: https://www.lhotellerie-restauration.com/rss/actualites.xml
+        type: rss
+        lang: fr
+      - name: Journal des Palaces
+        url: https://www.journaldespalaces.com/feeds/news.xml
+        type: rss
+        lang: fr
+      - name: HTR
+        url: https://www.htr.fr/rss
+        type: rss
+        lang: fr
+
+  spain-portugal:
+    label: 西葡
+    flag: 🇪🇸
+    sources:
+      - name: Preferente
+        url: https://www.preferente.com/feed/
+        type: rss
+        lang: es
+      - name: Hosteltur
+        url: https://www.hosteltur.com/feed/
+        type: rss
+        lang: es
+      - name: Vinistas
+        url: https://vinistas.com/feed/
+        type: rss
+        lang: es
+      - name: Publituris
+        url: https://www.publituris.pt/feed/
+        type: rss
+        lang: pt
+
+  italy:
+    label: 意大利
+    flag: 🇮🇹
+    sources:
+      - name: Horeca24
+        url: https://www.horeca24.it/feed/
+        type: rss
+        lang: it
+      - name: Turismo Italia
+        url: https://www.turismoitalia.info/feed/
+        type: rss
+        lang: it
+      - name: Turisport
+        url: https://www.turisport.it/feed/
+        type: rss
+        lang: it
+
+  nordics:
+    label: 北欧
+    flag: 🇸🇪
+    sources:
+      - name: Travel News
+        url: https://travelnews.se/rss/nyheter
+        type: rss
+        lang: sv
+      - name: Standby Nordic
+        url: https://standby-nordic.com/feed/
+        type: rss
+        lang: en
+      - name: Travel News Norge
+        url: https://travelnews.no/rss
+        type: rss
+        lang: no
+      - name: Standby Travel DK
+        url: https://standbytravel.dk/feed/
+        type: rss
+        lang: da
+      - name: Travel News Finland
+        url: https://matkailualasivu.fi/feed/
+        type: rss
+        lang: fi
+      - name: TTG Nordic
+        url: https://www.ttgnordic.com/feed/
+        type: rss
+        lang: en
+
+  eastern-europe:
+    label: 东欧
+    flag: 🇵🇱
+    sources:
+      - name: Rynek Turystyczny
+        url: https://www.rynekturystyczny.pl/rss/aktualnosci
+        type: rss
+        lang: pl
+      - name: Turystyka w Polsce
+        url: https://turystyka.w.polsce.pl/feed/
+        type: rss
+        lang: pl
+      - name: Travel CZ
+        url: https://www.crr.cz/feed/
+        type: rss
+        lang: cs
+      - name: Turizmus.com
+        url: https://turizmus.com/rss
+        type: rss
+        lang: hu
+      - name: Travel Romania
+        url: https://www.travelradar.ro/feed/
+        type: rss
+        lang: ro
+      - name: Hospodářské noviny Travel
+        url: https://travel.ihned.cz/rss
+        type: rss
+        lang: cs
+
+  benelux:
+    label: 荷比卢
+    flag: 🇳🇱
+    sources:
+      - name: Hospitality Trends NL
+        url: https://hospitalitytrends.nl/feed/
+        type: rss
+        lang: nl
+      - name: TravMag
+        url: https://www.travmag.nl/feed/
+        type: rss
+        lang: nl
+      - name: TTG Benelux
+        url: https://ttgbenelux.com/feed/
+        type: rss
+        lang: nl
+
+  turkey:
+    label: 土耳其
+    flag: 🇹🇷
+    sources:
+      - name: Turizm Günlüğü
+        url: https://www.turizmgunlugu.com/rss
+        type: rss
+        lang: tr
+      - name: Turizm Ajansi
+        url: https://www.turizmajansi.com/feed/
+        type: rss
+        lang: tr
+      - name: Hotel News Turkey
+        url: https://www.hotelnewsturkey.com/feed/
+        type: rss
+        lang: en
+      - name: TTG Turkey
+        url: https://www.ttgturkey.com/feed/
+        type: rss
+        lang: en
+
+  middle-east:
+    label: 中东海湾
+    flag: 🇦🇪
+    sources:
+      - name: Hotelier Middle East
+        url: https://www.hoteliermiddleeast.com/rss.xml
+        type: rss
+        lang: en
+      - name: Hotels Middle East
+        url: https://www.hotelsmiddleeast.com/rss.xml
+        type: rss
+        lang: en
+      - name: Arabian Business
+        url: https://www.arabianbusiness.com/rss
+        type: rss
+        lang: en
+      - name: Gulf News Hospitality
+        url: https://gulfnews.com/rss/hospitality
+        type: rss
+        lang: en
+
+  central-asia:
+    label: 中亚
+    flag: 🇰🇿
+    sources:
+      - name: Kazakh Tourism
+        url: https://kazakh-tourism.kz/en/rss
+        type: rss
+        lang: en
+      - name: Central Asia Travel
+        url: https://centralasia-travel.com/feed/
+        type: rss
+        lang: en
+      - name: Uzbekistan Travel
+        url: https://uzbekistan.travel/feed/
+        type: rss
+        lang: en
+
+  china:
+    label: 中国
+    flag: 🇨🇳
+    sources:
+      - name: 品橙旅游
+        url: https://www.pinchain.com/feed
+        type: rss
+        lang: zh
+      - name: 环球旅讯
+        url: https://www.traveldaily.cn/rss/article
+        type: rss
+        lang: zh
+      - name: 迈点网
+        url: https://www.meadin.com/rss
+        type: rss
+        lang: zh
+      - name: 执惠旅游
+        url: https://www.tripvivid.com/feed
+        type: rss
+        lang: zh
+      - name: 酒店高参
+        url: https://www.hoteldaily.cn/feed
+        type: rss
+        lang: zh
+
+  japan:
+    label: 日本
+    flag: 🇯🇵
+    sources:
+      - name: 観光経済新聞
+        url: https://www.kankokeizai.com/rss
+        type: rss
+        lang: ja
+      - name: トラベルビジョン
+        url: https://www.travelvision.jp/rss/news.rdf
+        type: rss
+        lang: ja
+      - name: T&G Media
+        url: https://tg-media.jp/feed/
+        type: rss
+        lang: ja
+
+  korea:
+    label: 韩国
+    flag: 🇰🇷
+    sources:
+      - name: 트래블아이
+        url: https://www.travelnews.co.kr/rss/S1N1.xml
+        type: rss
+        lang: ko
+      - name: 한국관광신문
+        url: https://www.tourtimes.co.kr/rss
+        type: rss
+        lang: ko
+
+  southeast-asia:
+    label: 东南亚
+    flag: 🇸🇬
+    sources:
+      - name: TTG Asia
+        url: https://www.ttgasia.com/rss.xml
+        type: rss
+        lang: en
+      - name: Travel Weekly Asia
+        url: https://www.travelweeklyasia.com/rss.xml
+        type: rss
+        lang: en
+      - name: Asian Hospitality
+        url: https://www.asianhospitality.com/feed/
+        type: rss
+        lang: en
+      - name: Southeast Asia Globe Travel
+        url: https://southeastasiaglobe.com/category/travel/feed/
+        type: rss
+        lang: en
+      - name: Vietnam Tourism News
+        url: https://vietnamtourism.gov.vn/rss
+        type: rss
+        lang: en
+      - name: TTG Mice
+        url: https://www.ttgmice.com/feed/
+        type: rss
+        lang: en
+      - name: Thailand Hotelier
+        url: https://www.thailandhotelier.com/feed/
+        type: rss
+        lang: en
+
+  india:
+    label: 南亚
+    flag: 🇮🇳
+    sources:
+      - name: TravelBiz Monitor
+        url: https://www.travelbizmonitor.com/rss/Latest-News
+        type: rss
+        lang: en
+      - name: Hotelier India
+        url: https://www.hotelierindia.com/rss.xml
+        type: rss
+        lang: en
+      - name: ETHospitality
+        url: https://ethospitalityworld.com/rss
+        type: rss
+        lang: en
+
+  brazil:
+    label: 巴西
+    flag: 🇧🇷
+    sources:
+      - name: Panrotas
+        url: https://www.panrotas.com.br/rss/noticias
+        type: rss
+        lang: pt
+      - name: Mercado&Eventos
+        url: https://www.mercadoeeventos.com.br/rss/noticias
+        type: rss
+        lang: pt
+      - name: Hotelier News BR
+        url: https://hoteliernews.com.br/feed/
+        type: rss
+        lang: pt
+
+  latam:
+    label: 拉美
+    flag: 🇲🇽
+    sources:
+      - name: Reportur
+        url: https://www.reportur.com/feed/
+        type: rss
+        lang: es
+      - name: Hosteltur Latam
+        url: https://www.hosteltur.com/latam/feed/
+        type: rss
+        lang: es
+      - name: Latin American Travel
+        url: https://latinamericatravel.net/feed/
+        type: rss
+        lang: en
+
+  oceania:
+    label: 大洋洲
+    flag: 🇦🇺
+    sources:
+      - name: Travel Weekly ANZ
+        url: https://www.travelweekly.com.au/rss/Latest-News
+        type: rss
+        lang: en
+      - name: Accommodation AU
+        url: https://www.accommodationaustralia.com.au/rss/news.xml
+        type: rss
+        lang: en
+      - name: Hotel Magazine NZ
+        url: https://www.hotelmagazine.nz/feed/
+        type: rss
+        lang: en
+
+  africa:
+    label: 非洲
+    flag: 🇿🇦
+    sources:
+      - name: We Are Africa
+        url: https://www.weareafrica.com/feed/
+        type: rss
+        lang: en
+      - name: Tourism Update
+        url: https://www.tourismupdate.co.za/rss
+        type: rss
+        lang: en
+      - name: Hotelier Africa
+        url: https://www.hotelierafrica.com/feed/
+        type: rss
+        lang: en
