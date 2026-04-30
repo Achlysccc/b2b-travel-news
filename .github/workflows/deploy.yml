@@ -38,10 +38,17 @@ jobs:
         PYTHONPATH: .
     
     - name: Build site
+      id: build
       run: |
         python -c "from generator.site_builder import build_site; build_site()"
       env:
         PYTHONPATH: .
+    
+    - name: Check output directory
+      run: |
+        echo "=== Output directory contents ==="
+        ls -la output/ || echo "output directory not found!"
+        echo "==============================="
     
     - name: Deploy to gh-pages
       uses: peaceiris/actions-gh-pages@v4
@@ -49,3 +56,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./output
         force_orphan: true
+        keep_files: false
