@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>合作 - B2B旅游分销</title>
+ <link rel="stylesheet" href="/b2b-travel-news/static/style.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+</head>
+<body>
+
+
+<aside class="sidebar">
+<div class="sidebar-logo">
+ <span class="logo-icon">🏨</span>
+ <span class="logo-text">B2B旅游分销<span class="logo-sub">行业动态</span></span>
+ </div>
+
+ <div class="sidebar-section">
+ <a href="index.html" class="btn-home">
+ 🏠 首页
+ </a>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">行业板块</div>
+  <ul class="sidebar-nav">
+   
+   <li class="sidebar-item">
+    <a href="sector/hotel.html" class="">
+     <span class="si-icon">🏨</span>
+     酒店
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/flight.html" class="">
+     <span class="si-icon">✈️</span>
+     机票
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/car.html" class="">
+     <span class="si-icon">🚗</span>
+     用车
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/travel.html" class="">
+     <span class="si-icon">🗺️</span>
+     旅游
+     <span class="si-count">0</span>
+    </a>
+   </li>
+   
+  </ul>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">内容分类</div>
+  <ul class="sidebar-nav">
+   
+   <li class="sidebar-item">
+    <a href="category/tech.html" class="">
+     <span class="si-icon">💻</span>
+     技术
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/ma.html" class="">
+     <span class="si-icon">🤝</span>
+     并购
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/partnership.html" class="active">
+     <span class="si-icon">🔗</span>
+     合作
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/policy.html" class="">
+     <span class="si-icon">📜</span>
+     政策
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/personnel.html" class="">
+     <span class="si-icon">👤</span>
+     人事
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/data.html" class="">
+     <span class="si-icon">📊</span>
+     数据
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/market.html" class="">
+     <span class="si-icon">📈</span>
+     市场
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="breaking.html" class="">
+     <span class="si-icon">🚨</span>
+     突发
+     
+    </a>
+   </li>
+  </ul>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">地区</div>
+  <ul class="sidebar-nav">
+   <li class="sidebar-item" style="padding: 0 18px;">
+    <div class="regions-grid">
+     
+    </div>
+   </li>
+  </ul>
+ </div>
+</aside>
+
+
+<header class="topbar">
+ <a href="index.html" class="topbar-brand">B2B旅游分销</a>
+
+ 
+ <div class="search-bar">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="searchInput" placeholder="搜索公司/地区/关键词…" autocomplete="off">
+  <div class="search-results" id="searchResults"></div>
+ </div>
+
+ <div class="topbar-right">
+  <span class="topbar-stat">
+   <strong></strong> 条今日动态
+  </span>
+  <span class="topbar-time">2026-04-30 17:01</span>
+ </div>
+</header>
+
+
+<div class="main-wrapper">
+ <div class="page-content">
+  
+
+
+<div class="page-header">
+ <div class="page-header-flex">
+  <div>
+   <h1 class="page-title">
+    <span class="page-title-icon">🔗</span>
+    合作 类动态
+   </h1>
+   <div class="page-subtitle">覆盖 7 天动态 · 按重要性排序</div>
+   <div class="page-meta">共 <strong>0</strong> 条动态</div>
+  </div>
+  <div style="font-size:40px;">🔗</div>
+ </div>
+</div>
+
+
+<div class="filter-bar">
+ <div class="filter-group">
+  <span class="filter-label">重要度</span>
+  <button class="filter-btn active" data-filter="all" onclick="filterArticles(this, 'importance')">全部</button>
+  <button class="filter-btn" data-filter="high" onclick="filterArticles(this, 'importance')">★★★★ 五星</button>
+  <button class="filter-btn" data-filter="mid" onclick="filterArticles(this, 'importance')">★★★☆ 四星</button>
+  <button class="filter-btn" data-filter="low" onclick="filterArticles(this, 'importance')">★★☆☆☆ 三星</button>
+ </div>
+ <div class="filter-group">
+  <span class="filter-label">状态</span>
+  <button class="filter-btn breaking" data-filter="all" onclick="filterArticles(this, 'urgency')">全部</button>
+  <button class="filter-btn breaking" data-filter="breaking" onclick="filterArticles(this, 'urgency')">🔴 突发</button>
+  <button class="filter-btn" data-filter="today" onclick="filterArticles(this, 'urgency')">🟡 今日</button>
+ </div>
+</div>
+
+
+<div class="news-list" id="articleList">
+ 
+
+ 
+ <div class="empty-state">
+  <div class="es-icon">📭</div>
+  <div class="es-title">暂无合作类动态</div>
+  <div class="es-sub">数据持续采集中</div>
+ </div>
+ 
+</div>
+
+<script>
+let currentImportance = 'all';
+let currentUrgency = 'all';
+
+function filterArticles(btn, type) {
+  btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (type === 'importance') currentImportance = btn.dataset.filter;
+  if (type === 'urgency') currentUrgency = btn.dataset.filter;
+  applyFilters();
+}
+
+function applyFilters() {
+  const items = document.querySelectorAll('.news-list-item');
+  items.forEach(item => {
+    const impLevel = item.dataset.importance;
+    const urgency = item.dataset.urgency;
+    let show = true;
+    if (currentImportance !== 'all' && impLevel !== currentImportance) show = false;
+    if (currentUrgency !== 'all' && urgency !== currentUrgency) show = false;
+    item.style.display = show ? '' : 'none';
+  });
+}
+</script>
+
+
+ </div>
+ <footer class="footer">
+  <span>B2B旅游分销</span>
+  <span>·</span>
+  <span>全球B2B旅游分销行业实时资讯聚合</span>
+  <span>·</span>
+  <span>每日 08:00 / 20:00 更新</span>
+ </footer>
+</div>
+
+<script>
+// 搜索功能（静态搜索）
+const articles = [
+
+];
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+if (searchInput) {
+ searchInput.addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  if (!q) { searchResults.classList.remove('open'); return; }
+  const matched = articles.filter(a => a.title.toLowerCase().includes(q)).slice(0, 8);
+  if (!matched.length) {
+   searchResults.innerHTML = '<div style="padding:14px 16px;color:#71717a;font-size:12px;">无结果</div>';
+   searchResults.classList.add('open');
+   return;
+  }
+  const sectorColors = {hotel:'sr-sector-hotel',flight:'sr-sector-flight',car:'sr-sector-car',travel:'sr-sector-travel'};
+  searchResults.innerHTML = matched.map(a => `
+   <div class="search-result-item" onclick="location.href='/b2b-travel-news/sector/'+a.sector+'.html'">
+    <div class="sr-title">${a.title}</div>
+    <div class="sr-meta">
+     <span class="sr-sector ${sectorColors[a.sector]||''}">${a.sector}</span>
+     ${a.region} · ${a.importance}星
+    </div>
+   </div>`).join('');
+  searchResults.classList.add('open');
+ });
+ document.addEventListener('click', e => {
+  if (!e.target.closest('.search-bar')) searchResults.classList.remove('open');
+ });
+}
+</script>
+
+</body>
+</html>
