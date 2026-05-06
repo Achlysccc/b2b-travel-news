@@ -227,16 +227,219 @@
 </div>
 {% endif %}
 
-{# 今日日报快捷入口 #}
+{# 今日日报快捷入口 + 日历 #}
 <div class="hs-card">
-<div class="hs-card-title">📅 今日日报</div>
-<div style="padding:4px 0 0">
-<a href="/b2b-travel-news/date/{{ today_str }}.html" class="btn-today-archive">
-📅 {{ today_display }} · 查看全部动态 →
-</a>
-<p style="font-size:10px;color:var(--text-muted);margin:6px 0 0;">每日 08:00 更新</p>
+<div class="hs-card-title">📅 历史日报</div>
+<div class="calendar-wrapper">
+  {# 月份选择 #}
+  <div class="calendar-header">
+    <a href="#" class="cal-nav" data-month="-1">◀</a>
+    <span class="cal-month-label">{{ today_display }}</span>
+    <a href="#" class="cal-nav" data-month="1">▶</a>
+  </div>
+  
+  {# 星期标题 #}
+  <div class="cal-weekdays">
+    <span class="cal-weekend">日</span>
+    <span>一</span>
+    <span>二</span>
+    <span>三</span>
+    <span>四</span>
+    <span>五</span>
+    <span class="cal-weekend">六</span>
+  </div>
+  
+  {# 日期格子 #}
+  <div class="cal-days" id="calendarDays">
+    {# 由 JS 动态生成 #}
+  </div>
 </div>
+<p style="font-size:10px;color:var(--text-muted);margin:8px 0 0;text-align:center;">点击有颜色的日期查看日报</p>
 </div>
+
+<script>
+// 日历数据
+const archiveDays = {{ archive_days | tojson }};
+const monthGroups = {{ date_archives_months | tojson }};
+
+let currentMonth = null;
+
+// 初始化当前月份
+function initCurrentMonth() {
+  const months = Object.keys(archiveDays).sort().reverse();
+  currentMonth = months[0] || new Date().toISOString().slice(0, 7);
+}
+
+// 渲染日历
+function renderCalendar(monthKey) {
+  const container = document.getElementById('calendarDays');
+  if (!container) return;
+  
+  const [year, month] = monthKey.split('-').map(Number);
+  const today = new Date();
+  const firstDay = new Date(year, month - 1, 1);
+  const lastDay = new Date(year, month, 0);
+  const startOffset = firstDay.getDay(); // 0=周日
+  const totalDays = lastDay.getDate();
+  
+  const daysWithArticles = archiveDays[monthKey] || [];
+  
+  let html = '';
+  
+  // 填充前面的空白
+  for (let i = 0; i < startOffset; i++) {
+    html += '<div class="cal-day cal-empty"></div>';
+  }
+  
+  // 日期格子
+  for (let day = 1; day <= totalDays; day++) {
+    const dayStr = day.toString().padStart(2, '0');
+    const hasArticles = daysWithArticles.includes(dayStr);
+    const isToday = new Date().getFullYear() === year && 
+                    new Date().getMonth() === month - 1 && 
+                    new Date().getDate() === day;
+    const isWeekend = new Date(year, month - 1, day).getDay() % 6 === 0;
+    
+    const classes = ['cal-day'];
+    if (hasArticles) classes.push('cal-has-articles');
+    if (isToday) classes.push('cal-today');
+    if (isWeekend) classes.push('cal-weekend-day');
+    
+    html += `<div class="${classes.join(' ')}" data-date="${monthKey}-${dayStr}">${day}</div>`;
+  }
+  
+  container.innerHTML = html;
+  
+  // 更新月份标签
+  const monthLabels = ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月', '8 月', '9 月', '10 月', '11 月', '12 月'];
+  document.querySelector('.cal-month-label').textContent = `${year}年${monthLabels[month - 1]}`;
+}
+
+// 月份切换
+function changeMonth(delta) {
+  const months = Object.keys(archiveDays).sort();
+  const currentIndex = months.indexOf(currentMonth);
+  let newIndex = currentIndex + delta;
+  
+  if (newIndex >= 0 && newIndex < months.length) {
+    currentMonth = months[newIndex];
+    renderCalendar(currentMonth);
+  }
+}
+
+// 初始化
+initCurrentMonth();
+renderCalendar(currentMonth);
+
+// 绑定月份切换事件
+document.querySelectorAll('.cal-nav').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const delta = parseInt(btn.dataset.month);
+    changeMonth(delta);
+  });
+});
+
+// 点击日期跳转
+document.getElementById('calendarDays').addEventListener('click', (e) => {
+  if (e.target.classList.contains('cal-has-articles')) {
+    const date = e.target.dataset.date;
+    if (date) {
+      window.location.href = `/b2b-travel-news/date/${date}.html`;
+    }
+  }
+});
+</script>
+
+<style>
+.calendar-wrapper {
+  padding: 12px 8px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.cal-month-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cal-nav {
+  font-size: 14px;
+  color: var(--accent-blue);
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.cal-nav:hover {
+  background: var(--border-light);
+  text-decoration: none;
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.cal-weekend {
+  color: #dc2626;
+}
+
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  border-radius: 4px;
+  cursor: default;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.cal-day.cal-has-articles {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cal-day.cal-has-articles:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: scale(1.08);
+}
+
+.cal-day.cal-today {
+  border: 2px solid var(--accent-blue);
+}
+
+.cal-day.cal-weekend-day {
+  color: #dc2626;
+}
+
+.cal-day.cal-empty {
+  cursor: default;
+}
+</style>
 
 </div>{# end home-sidebar #}
 </div>

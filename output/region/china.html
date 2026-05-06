@@ -122,7 +122,7 @@
     <a href="/b2b-travel-news/breaking.html" class="">
      <span class="si-icon">🚨</span>
      突发
-     
+     <span class="si-count">1</span>
     </a>
    </li>
   </ul>
@@ -137,10 +137,6 @@
      
      <a href="/b2b-travel-news/region/north-america.html" class="">
       <span class="rg-flag">🇺🇸</span>北美
-     </a>
-     
-     <a href="/b2b-travel-news/region/japan.html" class="">
-      <span class="rg-flag">🇯🇵</span>日本
      </a>
      
      <a href="/b2b-travel-news/region/global.html" class="">
@@ -172,7 +168,7 @@
   <span class="topbar-stat">
    <strong></strong> 条今日动态
   </span>
-  <span class="topbar-time">2026-04-30 19:05</span>
+  <span class="topbar-time">2026-05-06 11:30</span>
  </div>
 </header>
 
@@ -215,20 +211,29 @@
 
 
 
+<div class="breaking-banner">
+ <div class="bb-icon">🚨</div>
+ <div class="bb-text">
+  <div class="bb-title">突发新闻</div>
+  <div class="bb-count">2 条突发动态</div>
+ </div>
+ <a href="breaking.html" style="color:#fecaca;font-size:12px;text-decoration:none;">查看全部 →</a>
+</div>
+
 
 
 <div class="news-list" id="articleList">
  
- <div class="news-list-item "
-      data-importance="mid" data-urgency="normal" data-imp="3">
+ <div class="news-list-item is-breaking"
+      data-importance="high" data-urgency="breaking" data-imp="5">
   <div class="nli-header">
    <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
    <span class="nli-category">市场</span>
-   
+   <span class="tag tag-breaking">🔴 突发</span>
    
 <span class="nli-importance" style="margin-left:auto;">
-<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
-<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">5星</span>
 </span>
   </div>
   <div class="nli-body">
@@ -287,7 +292,7 @@ function applyFilters() {
 // 搜索功能（静态搜索）
 const articles = [
 
- {title:"五 一旅游预订创新高", sector:"travel", region:"中国", importance:3},
+ {title:"五 一旅游预订创新高", sector:"travel", region:"中国", importance:5},
 
 ];
 const searchInput = document.getElementById('searchInput');
