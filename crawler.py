@@ -9,9 +9,16 @@ def init_db():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("""CREATE TABLE IF NOT EXISTS articles (
-        id INTEGER PRIMARY KEY, title TEXT, link TEXT UNIQUE, summary_original TEXT,
-        lang TEXT, region TEXT, region_label TEXT, region_flag TEXT, source_name TEXT,
-        published_at TEXT, fetched_at TEXT, fingerprint TEXT, is_processed INTEGER DEFAULT 0)""")
+    id INTEGER PRIMARY KEY, title TEXT, link TEXT UNIQUE, summary_original TEXT,
+    lang TEXT, region TEXT, region_label TEXT, region_flag TEXT, source_name TEXT,
+    published_at TEXT, fetched_at TEXT, fingerprint TEXT, is_processed INTEGER DEFAULT 0,
+    importance INTEGER DEFAULT 3)""")
+    # 如果字段不存在，添加 importance 字段
+    try:
+        conn.execute("ALTER TABLE articles ADD COLUMN importance INTEGER DEFAULT 3")
+        conn.commit()
+    except:
+        pass  # 字段可能已存在
     conn.commit()
     return conn
 
@@ -112,17 +119,17 @@ def fetch_feed(conn, url, name, region='global', label='全球', flag='🌍'):
         # 生成唯一指纹
         fp = hashlib.md5(f"{title}{link}".encode()).hexdigest()
         
-        try:
-            cursor.execute("""INSERT OR IGNORE INTO articles 
-            (title,link,summary_original,lang,region,region_label,region_flag,
-            source_name,published_at,fetched_at,fingerprint,is_processed) 
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,0)""",
-            (title, link, summary, 'en', region, label, flag, name, published, 
-            now.isoformat(), fp))
-            if cursor.rowcount > 0:
-                count += 1
-        except Exception as e:
-            pass  # 重复或错误忽略
+    try:
+        cursor.execute("""INSERT OR IGNORE INTO articles 
+        (title,link,summary_original,lang,region,region_label,region_flag,
+        source_name,published_at,fetched_at,fingerprint,is_processed,importance) 
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,3)""",
+        (title, link, summary, 'en', region, label, flag, name, published, 
+        now.isoformat(), fp, 1))
+        if cursor.rowcount > 0:
+            count += 1
+    except Exception as e:
+        pass# 重复或错误忽略
     
     conn.commit()
     return count
