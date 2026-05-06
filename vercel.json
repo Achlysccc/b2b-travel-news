@@ -1,0 +1,6 @@
+{
+  "name": "b2b-travel-news",
+  "outputDirectory": "output",
+  "installCommand": "echo 'No install needed'",
+  "buildCommand": "echo 'Build already done'"
+}
