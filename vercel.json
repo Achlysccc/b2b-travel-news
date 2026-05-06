@@ -1,6 +1,22 @@
 {
   "name": "b2b-travel-news",
   "outputDirectory": "output",
-  "installCommand": "echo 'No install needed'",
-  "buildCommand": "echo 'Build already done'"
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
+      ]
+    }
+  ]
 }
