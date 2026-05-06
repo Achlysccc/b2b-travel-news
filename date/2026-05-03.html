@@ -3,7 +3,7 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>🇩🇪 德语区 - B2B旅游分销</title>
+ <title>📅 2026-05-03 周日 - B2B旅游分销</title>
  <link rel="stylesheet" href="/b2b-travel-news/static/style.css">
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -33,7 +33,7 @@
     <a href="/b2b-travel-news/sector/hotel.html" class="">
      <span class="si-icon">🏨</span>
      酒店
-     <span class="si-count">2</span>
+     <span class="si-count">0</span>
     </a>
    </li>
    
@@ -57,7 +57,7 @@
     <a href="/b2b-travel-news/sector/travel.html" class="">
      <span class="si-icon">🗺️</span>
      旅游
-     <span class="si-count">3</span>
+     <span class="si-count">1</span>
     </a>
    </li>
    
@@ -180,85 +180,84 @@
 
 <div class="page-header">
  <div class="page-header-flex">
-  <div>
-   <h1 class="page-title">
-    <span class="page-title-icon">🇩🇪</span>
-    德语区 地区动态
-   </h1>
-   <div class="page-subtitle">覆盖 7 天动态 · 按重要性排序</div>
-   <div class="page-meta">共 <strong>0</strong> 条动态</div>
-  </div>
-  <div style="font-size:40px;">🇩🇪</div>
+ <div>
+ <h1 class="page-title">📅 2026-05-03 周日</h1>
+ <div class="page-subtitle">当日动态 · 按重要性排序</div>
+ <div class="page-meta">共 <strong>1</strong> 条动态</div>
+ </div>
+ <div style="font-size:40px;">📅</div>
  </div>
 </div>
 
 
 <div class="filter-bar">
  <div class="filter-group">
-  <span class="filter-label">重要度</span>
-  <button class="filter-btn active" data-filter="all" onclick="filterArticles(this, 'importance')">全部</button>
-  <button class="filter-btn" data-filter="high" onclick="filterArticles(this, 'importance')">★★★★ 五星</button>
-  <button class="filter-btn" data-filter="mid" onclick="filterArticles(this, 'importance')">★★★☆ 四星</button>
-  <button class="filter-btn" data-filter="low" onclick="filterArticles(this, 'importance')">★★☆☆☆ 三星</button>
- </div>
- <div class="filter-group">
-  <span class="filter-label">状态</span>
-  <button class="filter-btn breaking" data-filter="all" onclick="filterArticles(this, 'urgency')">全部</button>
-  <button class="filter-btn breaking" data-filter="breaking" onclick="filterArticles(this, 'urgency')">🔴 突发</button>
-  <button class="filter-btn" data-filter="today" onclick="filterArticles(this, 'urgency')">🟡 今日</button>
+ <span class="filter-label">排序</span>
+ <button class="filter-btn active" data-sort="importance" onclick="sortArticles(this)">按重要性</button>
+ <button class="filter-btn" data-sort="time" onclick="sortArticles(this)">按时间</button>
  </div>
 </div>
-
-
-
-<div class="breaking-banner">
- <div class="bb-icon">🚨</div>
- <div class="bb-text">
-  <div class="bb-title">突发新闻</div>
-  <div class="bb-count">2 条突发动态</div>
- </div>
- <a href="breaking.html" style="color:#fecaca;font-size:12px;text-decoration:none;">查看全部 →</a>
-</div>
-
 
 
 <div class="news-list" id="articleList">
  
-
+ <div class="news-list-item"
+ data-importance="high" data-urgency="breaking" data-imp="5">
+ <div class="nli-header">
+ <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
+ <span class="nli-category">市场</span>
+ <span class="tag tag-breaking">🔴 突发</span>
  
- <div class="empty-state">
-  <div class="es-icon">📭</div>
-  <div class="es-title">暂无德语区相关动态</div>
-  <div class="es-sub">数据持续采集中</div>
+ <span class="nli-importance" style="margin-left:auto;">
+ <span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span>
+ <span style="font-size:10px;color:var(--text-muted);margin-left:2px;">5星</span>
+ </span>
  </div>
+
+ <div class="nli-body">
+ 
+ 五 一旅游预订创新高
+ </div>
+
+ <div class="nli-footer">
+ <span class="nli-region">🇨🇳 中国</span>
+ <span>·</span>
+ <span>Test</span>
+ <span>·</span>
+ <span></span>
+ <span style="margin-left:auto;"><a href="https://ex.com/m4" target="_blank" class="source-link">阅读原文 ↗</a></span>
+ </div>
+ </div>
+ 
+
  
 </div>
 
 <script>
-let currentImportance = 'all';
-let currentUrgency = 'all';
+let currentSort = 'importance';
 
-function filterArticles(btn, type) {
-  btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (type === 'importance') currentImportance = btn.dataset.filter;
-  if (type === 'urgency') currentUrgency = btn.dataset.filter;
-  applyFilters();
+function sortArticles(btn) {
+ btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+ btn.classList.add('active');
+ currentSort = btn.dataset.sort;
+ applySort();
 }
 
-function applyFilters() {
-  const items = document.querySelectorAll('.news-list-item');
-  items.forEach(item => {
-    const impLevel = item.dataset.importance;
-    const urgency = item.dataset.urgency;
-    let show = true;
-    if (currentImportance !== 'all' && impLevel !== currentImportance) show = false;
-    if (currentUrgency !== 'all' && urgency !== currentUrgency) show = false;
-    item.style.display = show ? '' : 'none';
-  });
+function applySort() {
+ const items = Array.from(document.querySelectorAll('.news-list-item'));
+ items.sort((a, b) => {
+ if (currentSort === 'importance') {
+ const impA = parseInt(a.dataset.imp || '0');
+ const impB = parseInt(b.dataset.imp || '0');
+ return impB - impA;
+ } else {
+ return 0;
+ }
+ });
+ const list = document.getElementById('articleList');
+ items.forEach(item => list.appendChild(item));
 }
 </script>
-
 
  </div>
  <footer class="footer">
@@ -273,6 +272,8 @@ function applyFilters() {
 <script>
 // 搜索功能（静态搜索）
 const articles = [
+
+ {title:"五 一旅游预订创新高", sector:"travel", region:"中国", importance:5},
 
 ];
 const searchInput = document.getElementById('searchInput');
