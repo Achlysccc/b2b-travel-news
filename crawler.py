@@ -68,67 +68,116 @@ def add_test_data(conn):
     return count
 
 def fetch_feed(conn, url, name, region='global', label='全球', flag='🌍'):
+    """抓取 RSS 源并保存到数据库"""
     try:
         feed = feedparser.parse(url)
         if not feed or not feed.entries:
             return 0
-    except:
+    except Exception as e:
         return 0
     
     cursor = conn.cursor()
     count = 0
-    for e in feed.entries[:20]:
-        title = e.get('title', '')[:500]
-        link = e.get('link', '')[:1000]
-        summary = e.get('summary', e.get('description', ''))[:2000]
-        published = datetime.now().strftime('%Y-%m-%d')
+    now = datetime.now()
+    
+    for e in feed.entries[:15]:  # 每个源最多取 15 条
+        title = e.get('title', '').strip()[:500]
+        link = e.get('link', '').strip()[:1000]
+        
+        # 尝试获取摘要
+        summary = ''
+        if 'summary' in e:
+            summary = e.get('summary', '')[:2000]
+        elif 'description' in e:
+            summary = e.get('description', '')[:2000]
+        elif 'content' in e and e.content:
+            summary = e.content[0].get('value', '')[:2000]
+        
+        # 尝试解析发布时间
+        published = now.strftime('%Y-%m-%d %H:%M:%S')
+        if 'published_parsed' in e and e.published_parsed:
+            try:
+                published = datetime(*e.published_parsed[:6]).strftime('%Y-%m-%d %H:%M:%S')
+            except:
+                pass
+        elif 'updated_parsed' in e and e.updated_parsed:
+            try:
+                published = datetime(*e.updated_parsed[:6]).strftime('%Y-%m-%d %H:%M:%S')
+            except:
+                pass
         
         if not title or not link:
             continue
         
+        # 生成唯一指纹
         fp = hashlib.md5(f"{title}{link}".encode()).hexdigest()
+        
         try:
             cursor.execute("""INSERT OR IGNORE INTO articles 
-                (title,link,summary_original,lang,region,region_label,region_flag,
-                 source_name,published_at,fetched_at,fingerprint,is_processed) 
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,0)""",
-                (title, link, summary, 'en', region, label, flag, name, published, 
-                 datetime.now().isoformat(), fp))
+            (title,link,summary_original,lang,region,region_label,region_flag,
+            source_name,published_at,fetched_at,fingerprint,is_processed) 
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,0)""",
+            (title, link, summary, 'en', region, label, flag, name, published, 
+            now.isoformat(), fp))
             if cursor.rowcount > 0:
                 count += 1
-        except:
-            pass
+        except Exception as e:
+            pass  # 重复或错误忽略
     
     conn.commit()
     return count
 
 if __name__ == "__main__":
-    print("🚀 B2B 旅游分销 - 数据采集")
+    print("🚀 B2B 旅游分销 - 数据采集（真实新闻）")
     now = datetime.now()
     print(f"📅 时间：{now.strftime('%Y-%m-%d %H:%M:%S')}")
     
     conn = init_db()
     
-    # 始终添加测试数据
-    add_test_data(conn)
+    # 清理旧的测试数据（所有 example.com 链接）
+    print("🧹 清理测试数据...")
+    conn.execute("DELETE FROM articles WHERE link LIKE '%example.com%'")
+    conn.execute("DELETE FROM articles WHERE link LIKE '%ex.com%'")
+    conn.commit()
+    print(" ✅ 测试数据已清理")
     
-    # 尝试抓取真实 RSS
+    # 真实 RSS 源列表（酒店/旅游行业权威媒体）
     sources = [
-        ("https://www.hospitalitynet.org/rss/news.xml", "Hospitality Net"),
-        ("https://skift.com/feed/", "Skift"),
+        # 全球酒店业
+        ("https://www.hospitalitynet.org/rss/news.xml", "Hospitality Net", "global", "全球", "🌍"),
+        ("https://skift.com/feed/", "Skift", "global", "全球", "🌍"),
+        # 酒店新闻
+        ("https://hotelnewsnow.com/rss", "Hotel News Now", "global", "全球", "🌍"),
+        # 技术类
+        ("https://www.phocuswire.com/rss", "PhocusWire", "global", "全球", "🌍"),
+        ("https://www.tnooz.com/feed/", "Tnooz", "global", "全球", "🌍"),
+        # 航空类
+        ("https://www.flightglobal.com/feeds/rss", "FlightGlobal", "global", "全球", "🌍"),
+        # 旅游商业
+        ("https://www.travelweekly.com/rss/all-articles", "Travel Weekly", "global", "全球", "🌍"),
     ]
     
     total = 0
-    for url, name in sources:
+    for url, name, region, label, flag in sources:
         print(f"\n📡 {name}...")
         try:
-            c = fetch_feed(conn, url, name)
+            c = fetch_feed(conn, url, name, region, label, flag)
             total += c
             if c > 0:
-                print(f"  ✅ 新增 {c} 条")
+                print(f" ✅ 新增 {c} 条")
+            else:
+                print(" ⚠️ 无新内容")
         except Exception as e:
-            print(f"  ⚠️ 跳过：{e}")
-        time.sleep(0.5)
+            print(f" ⚠️ 跳过：{e}")
+        time.sleep(1)  # 礼貌性延迟
+    
+    # 统计
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM articles")
+    total_count = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) FROM articles WHERE datetime(published_at) >= datetime('now', '-24 hours')")
+    recent_count = cursor.fetchone()[0]
     
     conn.close()
-    print(f"\n✅ 完成！共抓取 {total} 条真实新闻 + 测试数据")
+    print(f"\n✅ 完成！共抓取 {total} 条真实新闻")
+    print(f"📊 数据库总计：{total_count} 条（24 小时内：{recent_count} 条）")
