@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""RSS 爬虫 + 测试数据生成器"""
-import feedparser, sqlite3, hashlib, os, sys, time
+"""RSS 爬虫 - 只抓真实新闻，无假数据"""
+import feedparser, sqlite3, hashlib, os, sys, time, requests
 from datetime import datetime, timedelta
 
 DB_PATH = os.environ.get("DB_PATH", "db/news.db")
@@ -9,182 +9,155 @@ def init_db():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("""CREATE TABLE IF NOT EXISTS articles (
-    id INTEGER PRIMARY KEY, title TEXT, link TEXT UNIQUE, summary_original TEXT,
-    lang TEXT, region TEXT, region_label TEXT, region_flag TEXT, source_name TEXT,
-    published_at TEXT, fetched_at TEXT, fingerprint TEXT, is_processed INTEGER DEFAULT 0,
-    importance INTEGER DEFAULT 3)""")
-    # 如果字段不存在，添加 importance 字段
+        id INTEGER PRIMARY KEY, title TEXT, link TEXT UNIQUE, summary_original TEXT,
+        lang TEXT, region TEXT, region_label TEXT, region_flag TEXT, source_name TEXT,
+        published_at TEXT, fetched_at TEXT, fingerprint TEXT, is_processed INTEGER DEFAULT 0,
+        importance INTEGER DEFAULT 3)""")
+    # 确保 importance 字段存在
     try:
         conn.execute("ALTER TABLE articles ADD COLUMN importance INTEGER DEFAULT 3")
         conn.commit()
     except:
-        pass  # 字段可能已存在
-    conn.commit()
+        pass
     return conn
 
-def add_test_data(conn):
-    """添加测试数据（仅当数据库为空时），确保时效性"""
-    cursor = conn.cursor()
-    
-    # 检查是否已有足够的新数据
-    now = datetime.now()
-    cutoff = now - timedelta(hours=18)
-    cursor.execute("SELECT COUNT(*) FROM articles WHERE datetime(published_at) >= datetime(?)", 
-                   (cutoff.strftime('%Y-%m-%d %H:%M:%S'),))
-    recent_count = cursor.fetchone()[0]
-    
-    # 如果最近数据不足 10 条，才添加测试数据
-    if recent_count >= 10:
-        print(f"✅ 已有 {recent_count} 条最近数据，跳过测试数据生成")
-        return 0
-    
-    print("📝 生成测试数据...")
-    test_articles = [
-        ("万豪国际宣布 2026 年在亚洲新开 50 家酒店", "https://example.com/marriott-asia-2026", "万豪国际集团今日宣布，计划在 2026 年于亚洲地区新开 50 家酒店，重点布局中国、日本和东南亚市场。", "global", "全球", "🌍", "Hospitality Net"),
-        ("希尔顿推出全新商务旅行套餐", "https://example.com/hilton-business-package", "希尔顿酒店集团推出针对商务旅客的全新套餐服务，包含免费会议室使用、快速入住等特权。", "north-america", "北美", "🇺🇸", "Skift"),
-        ("Airbnb 公布 Q1 财报：营收同比增长 18%", "https://example.com/airbnb-q1-2026", "短租平台 Airbnb 发布 2026 年第一季度财报，显示营收同比增长 18%，主要得益于亚太地区业务增长。", "north-america", "北美", "🇺🇸", "PhocusWire"),
-        ("中国文旅部：2026 年五一假期旅游预订量创历史新高", "https://example.com/china-may-day-travel", "中国文旅部发布数据显示，2026 年五一假期旅游产品预订量较去年同期增长 35%，国内游和出境游均呈现强劲复苏态势。", "china", "中国", "🇨🇳", "China Daily"),
-        ("日本放宽签证政策，吸引东南亚游客", "https://example.com/japan-visa-policy", "日本政府宣布将进一步简化东南亚国家游客的签证申请流程，预计 2026 年赴日游客数量将增长 25%。", "japan", "日本", "🇯🇵", "Nikkei"),
-        ("欧洲廉价航空 Ryanair 开通 10 条新航线", "https://example.com/ryanair-new-routes", "爱尔兰廉价航空公司 Ryanair 宣布将在今年夏季开通 10 条连接东欧和西欧的新航线。", "europe", "欧洲", "🇪🇺", "FlightGlobal"),
-        ("Booking.com 推出 AI 行程规划工具", "https://example.com/booking-ai-tool", "在线旅游平台 Booking.com 发布基于人工智能的行程规划工具，可自动生成个性化旅行建议。", "tech", "技术", "💻", "TechCrunch"),
-        ("洲际酒店集团收购精品酒店品牌", "https://example.com/ihg-acquisition", "洲际酒店集团（IHG）宣布收购欧洲精品酒店品牌 Kimpton，交易金额达 3.2 亿美元。", "global", "全球", "🌍", "Hotel News"),
-        ("东南亚旅游市场 2026 年预计增长 30%", "https://example.com/sea-tourism-growth", "世界旅游组织报告预测，2026 年东南亚地区国际游客数量将比 2025 年增长 30%，恢复至疫情前水平的 120%。", "southeast-asia", "东南亚", "🌴", "UNWTO"),
-        ("特斯拉推出自动驾驶出租车服务", "https://example.com/tesla-robotaxi", "特斯拉在旧金山正式推出自动驾驶出租车服务，标志着共享出行进入新阶段。", "north-america", "北美", "🇺🇸", "Reuters"),
-    ]
-    
-    count = 0
-    for i, (title, link, summary, region, label, flag, source) in enumerate(test_articles):
-        fp = hashlib.md5(f"{title}{link}".encode()).hexdigest()
-        # 发布时间：最近 8 小时内，每条间隔 30-60 分钟
-        pub_time = (now - timedelta(minutes=i*45 + 30)).strftime('%Y-%m-%d %H:%M:%S')
-        try:
-            cursor.execute("""INSERT OR IGNORE INTO articles 
-            (title,link,summary_original,lang,region,region_label,region_flag,
-            source_name,published_at,fetched_at,fingerprint,is_processed) 
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,0)""",
-            (title, link, summary, 'zh', region, label, flag, source, pub_time, 
-            now.isoformat(), fp))
-            if cursor.rowcount > 0:
-                count += 1
-        except Exception as e:
-            if "UNIQUE" not in str(e):
-                print(f" Error: {e}")
-    
-    conn.commit()
-    print(f" ✅ 添加 {count} 条测试数据")
-    return count
-
-def fetch_feed(conn, url, name, region='global', label='全球', flag='🌍'):
-    """抓取 RSS 源并保存到数据库"""
+def fetch_feed(url, name, region='global', label='全球', flag='🌍'):
+    """抓取单个 RSS 源，返回文章列表"""
+    articles = []
     try:
-        feed = feedparser.parse(url)
+        # 先尝试 requests 预抓（解决某些 RSS 需要 HTTP header 的问题）
+        try:
+            r = requests.get(url, timeout=10, headers={'User-Agent': 'Mozilla/5.0'})
+            feed = feedparser.parse(r.text)
+        except:
+            feed = feedparser.parse(url)
+        
         if not feed or not feed.entries:
-            return 0
+            return []
     except Exception as e:
-        return 0
+        return []
     
-    cursor = conn.cursor()
-    count = 0
-    now = datetime.now()
-    
-    for e in feed.entries[:15]:  # 每个源最多取 15 条
-        title = e.get('title', '').strip()[:500]
-        link = e.get('link', '').strip()[:1000]
-        
-        # 尝试获取摘要
-        summary = ''
-        if 'summary' in e:
-            summary = e.get('summary', '')[:2000]
-        elif 'description' in e:
-            summary = e.get('description', '')[:2000]
-        elif 'content' in e and e.content:
-            summary = e.content[0].get('value', '')[:2000]
-        
-        # 尝试解析发布时间
-        published = now.strftime('%Y-%m-%d %H:%M:%S')
-        if 'published_parsed' in e and e.published_parsed:
-            try:
-                published = datetime(*e.published_parsed[:6]).strftime('%Y-%m-%d %H:%M:%S')
-            except:
-                pass
-        elif 'updated_parsed' in e and e.updated_parsed:
-            try:
-                published = datetime(*e.updated_parsed[:6]).strftime('%Y-%m-%d %H:%M:%S')
-            except:
-                pass
-        
+    for e in feed.entries[:20]:  # 最多取 20 条
+        title = (e.get('title') or '').strip()[:500]
+        link = (e.get('link') or '').strip()[:1000]
         if not title or not link:
             continue
         
-        # 生成唯一指纹
-        fp = hashlib.md5(f"{title}{link}".encode()).hexdigest()
+        # 获取摘要
+        summary = ''
+        for field in ('summary', 'description', 'content'):
+            if field in e:
+                val = e.get(field)
+                if isinstance(val, list) and val:
+                    val = val[0].get('value', '')
+                summary = (val or '')[:2000]
+                break
         
-    try:
-        cursor.execute("""INSERT OR IGNORE INTO articles 
-        (title,link,summary_original,lang,region,region_label,region_flag,
-        source_name,published_at,fetched_at,fingerprint,is_processed,importance) 
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,3)""",
-        (title, link, summary, 'en', region, label, flag, name, published, 
-        now.isoformat(), fp, 1))
-        if cursor.rowcount > 0:
-            count += 1
-    except Exception as e:
-        pass# 重复或错误忽略
+        # 解析发布时间
+        published = ''
+        for field in ('published_parsed', 'updated_parsed'):
+            if field in e and e[field]:
+                try:
+                    published = datetime(*e[field][:6]).strftime('%Y-%m-%d %H:%M:%S')
+                    break
+                except:
+                    pass
+        
+        if not published:
+            published = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        articles.append({
+            'title': title,
+            'link': link,
+            'summary': summary,
+            'published_at': published,
+            'source': name,
+            'region': region,
+            'label': label,
+            'flag': flag,
+        })
     
+    return articles
+
+def save_articles(conn, articles):
+    """保存文章到数据库"""
+    cursor = conn.cursor()
+    now = datetime.now()
+    count = 0
+    
+    for a in articles:
+        fp = hashlib.md5(f"{a['title']}{a['link']}".encode()).hexdigest()
+        try:
+            cursor.execute("""INSERT OR IGNORE INTO articles 
+                (title, link, summary_original, lang, region, region_label, region_flag,
+                 source_name, published_at, fetched_at, fingerprint, is_processed, importance)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,1,3)""",
+                (a['title'], a['link'], a['summary'], 'en', a['region'], a['label'],
+                 a['flag'], a['source'], a['published_at'], now.isoformat(), fp))
+            if cursor.rowcount > 0:
+                count += 1
+        except Exception as e:
+            pass
     conn.commit()
     return count
 
+# RSS 源配置（酒店/旅游/B2B 行业）
+RSS_SOURCES = [
+    # 全球酒店业
+    ("https://www.hospitalitynet.org/rss/news.xml", "Hospitality Net", "global", "全球", "🌍"),
+    ("https://skift.com/feed/", "Skift", "global", "全球", "🌍"),
+    ("https://hotelnewsnow.com/rss", "Hotel News Now", "global", "全球", "🌍"),
+    ("https://www.phocuswire.com/rss", "PhocusWire", "global", "全球", "🌍"),
+    # 航空
+    ("https://www.flightglobal.com/feeds/rss", "FlightGlobal", "global", "全球", "🌍"),
+    ("https://www.tnooz.com/feed/", "Tnooz", "global", "全球", "🌍"),
+    # 旅游商业
+    ("https://www.travelweekly.com/rss/all-articles", "Travel Weekly", "global", "全球", "🌍"),
+    # 经济/商业
+    ("https://www.businesstraveller.com/feed/", "Business Traveller", "global", "全球", "🌍"),
+    ("https://www.mckinsey.com/industries/travel-logistics-and-transport/overview/rss", "McKinsey Travel", "global", "全球", "🌍"),
+    # 差旅/商旅
+    ("https://www.globalbusinesstravel.com/news/rss", "GBTA", "global", "全球", "🌍"),
+]
+
 if __name__ == "__main__":
-    print("🚀 B2B 旅游分销 - 数据采集（真实新闻）")
+    print("🚀 B2B 旅游分销 - 数据采集")
     now = datetime.now()
     print(f"📅 时间：{now.strftime('%Y-%m-%d %H:%M:%S')}")
     
     conn = init_db()
     
-    # 清理旧的测试数据（所有 example.com 链接）
-    print("🧹 清理测试数据...")
-    conn.execute("DELETE FROM articles WHERE link LIKE '%example.com%'")
-    conn.execute("DELETE FROM articles WHERE link LIKE '%ex.com%'")
+    # 清理超旧数据（90天以前）
+    cutoff = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
+    cur = conn.cursor()
+    cur.execute("DELETE FROM articles WHERE published_at < ?", (cutoff,))
+    print(f"🗑️ 清理过期数据：{cur.rowcount} 条")
     conn.commit()
-    print(" ✅ 测试数据已清理")
     
-    # 真实 RSS 源列表（酒店/旅游行业权威媒体）
-    sources = [
-        # 全球酒店业
-        ("https://www.hospitalitynet.org/rss/news.xml", "Hospitality Net", "global", "全球", "🌍"),
-        ("https://skift.com/feed/", "Skift", "global", "全球", "🌍"),
-        # 酒店新闻
-        ("https://hotelnewsnow.com/rss", "Hotel News Now", "global", "全球", "🌍"),
-        # 技术类
-        ("https://www.phocuswire.com/rss", "PhocusWire", "global", "全球", "🌍"),
-        ("https://www.tnooz.com/feed/", "Tnooz", "global", "全球", "🌍"),
-        # 航空类
-        ("https://www.flightglobal.com/feeds/rss", "FlightGlobal", "global", "全球", "🌍"),
-        # 旅游商业
-        ("https://www.travelweekly.com/rss/all-articles", "Travel Weekly", "global", "全球", "🌍"),
-    ]
+    total_new = 0
+    total_sources = 0
     
-    total = 0
-    for url, name, region, label, flag in sources:
-        print(f"\n📡 {name}...")
+    for url, name, region, label, flag in RSS_SOURCES:
+        print(f"\n📡 {name}...", end=" ", flush=True)
         try:
-            c = fetch_feed(conn, url, name, region, label, flag)
-            total += c
-            if c > 0:
-                print(f" ✅ 新增 {c} 条")
+            articles = fetch_feed(url, name, region, label, flag)
+            if articles:
+                n = save_articles(conn, articles)
+                print(f"✅ {len(articles)}条 / 新增{n}条")
+                total_new += n
+                total_sources += 1
             else:
-                print(" ⚠️ 无新内容")
+                print("⚠️ 无内容")
         except Exception as e:
-            print(f" ⚠️ 跳过：{e}")
-        time.sleep(1)  # 礼貌性延迟
+            print(f"❌ 错误: {e}")
+        time.sleep(1)  # 礼貌延迟
     
     # 统计
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM articles")
-    total_count = cursor.fetchone()[0]
-    cursor.execute("SELECT COUNT(*) FROM articles WHERE datetime(published_at) >= datetime('now', '-24 hours')")
-    recent_count = cursor.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM articles")
+    total_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM articles WHERE datetime(published_at) >= datetime('now', '-48 hours')")
+    recent = cur.fetchone()[0]
     
     conn.close()
-    print(f"\n✅ 完成！共抓取 {total} 条真实新闻")
-    print(f"📊 数据库总计：{total_count} 条（24 小时内：{recent_count} 条）")
+    
+    print(f"\n✅ 完成！新增 {total_new} 条 | 数据库共 {total_count} 条（48h内 {recent} 条）| 成功来源 {total_sources}/{len(RSS_SOURCES)}")

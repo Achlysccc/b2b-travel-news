@@ -8,9 +8,9 @@ cd "$PROJECT_DIR"
 echo "🚀 B2B 旅游分销 - 开始更新"
 echo "📅 时间：$(date '+%Y-%m-%d %H:%M:%S')"
 
-# 运行简化爬虫（生成测试数据）
-echo "📝 生成数据..."
-python3 crawler_simple.py
+# 运行爬虫（抓取真实 RSS）
+echo "📡 抓取真实新闻..."
+python3 crawler.py
 
 # 构建网站
 echo "🏗️  构建网站..."

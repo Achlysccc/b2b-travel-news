@@ -33,7 +33,7 @@
     <a href="/sector/hotel.html" class="">
      <span class="si-icon">🏨</span>
      酒店
-     <span class="si-count">0</span>
+     <span class="si-count">17</span>
     </a>
    </li>
    
@@ -41,7 +41,7 @@
     <a href="/sector/flight.html" class="">
      <span class="si-icon">✈️</span>
      机票
-     <span class="si-count">0</span>
+     <span class="si-count">5</span>
     </a>
    </li>
    
@@ -57,7 +57,7 @@
     <a href="/sector/travel.html" class="">
      <span class="si-icon">🗺️</span>
      旅游
-     <span class="si-count">0</span>
+     <span class="si-count">28</span>
     </a>
    </li>
    
@@ -122,7 +122,7 @@
     <a href="/breaking.html" class="active">
      <span class="si-icon">🚨</span>
      突发
-     
+     <span class="si-count">2</span>
     </a>
    </li>
   </ul>
@@ -134,6 +134,8 @@
  <ul class="sidebar-nav">
  <li class="sidebar-item" style="padding: 0 18px;">
  <div class="regions-grid">
+ 
+ 
  
  </div>
  </li>
@@ -156,7 +158,7 @@
   <span class="topbar-stat">
    <strong></strong> 条今日动态
   </span>
-  <span class="topbar-time">2026-05-07 08:02</span>
+  <span class="topbar-time">2026-05-07 10:00</span>
  </div>
 </header>
 
@@ -172,12 +174,41 @@
 
 <section class="news-stream">
     
-
+    <article class="news-card news-card-breaking">
+        <div class="card-meta">
+            <span class="tag tag-region">🌍 全球</span>
+            <span class="tag tag-category tag-tech">技术</span>
+            <span class="tag tag-breaking">🔴 突发</span>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title"><a href="https://www.hospitalitynet.org/news/4132269/venza-named-2026-traveltech-cybersecurity-solution-of-the-year-by-traveltech-breakthrough" target="_blank" rel="noopener">Venza Named 2026 “TravelTech Cybersecurity Solution of the Year” By TravelTech Breakthrough</a></h3>
+            <p class="card-summary">Venza&#39;s integrated cybersecurity platform serves 2,000+ properties across 100+ countries, combining PCI compliance, threat detection, and staff training.</p>
+        </div>
+        <div class="card-footer">
+            <span class="card-source">Hospitality Net</span>
+            
+            <span class="card-time">5小时前</span>
+        </div>
+    </article>
     
-    <div class="empty-state">
-        <p>当前无突发动态</p>
-        <p style="font-size:12px; margin-top:8px;">风平浪静</p>
-    </div>
+    <article class="news-card news-card-breaking">
+        <div class="card-meta">
+            <span class="tag tag-region">🌍 全球</span>
+            <span class="tag tag-category tag-tech">技术</span>
+            <span class="tag tag-breaking">🔴 突发</span>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title"><a href="https://www.hospitalitynet.org/news/4132268/the-rms-booking-engine-has-been-named-online-booking-innovation-of-the-year" target="_blank" rel="noopener">The RMS Booking Engine has been named Online Booking Innovation of the Year</a></h3>
+            <p class="card-summary">RMS won the award for its mobile-first booking engine that reduces guest abandonment and OTA commissions through fast load times and integrated payments.</p>
+        </div>
+        <div class="card-footer">
+            <span class="card-source">Hospitality Net</span>
+            
+            <span class="card-time">9小时前</span>
+        </div>
+    </article>
+    
+
     
 </section>
 
@@ -195,6 +226,10 @@
 <script>
 // 搜索功能（静态搜索）
 const articles = [
+
+ {title:"Venza&#39;s integrated cybersecurity platform serves 2,000+ properties across 100+ countries, combining PCI compliance, threat detection, and staff training.", sector:"travel", region:"全球", importance:3},
+
+ {title:"RMS won the award for its mobile-first booking engine that reduces guest abandonment and OTA commissions through fast load times and integrated payments.", sector:"travel", region:"全球", importance:3},
 
 ];
 const searchInput = document.getElementById('searchInput');
