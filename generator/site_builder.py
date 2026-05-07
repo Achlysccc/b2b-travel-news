@@ -427,15 +427,19 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
     today_day = now_cn.strftime("%d")
     today_display = f"{now_cn.year}/{now_cn.month}/{now_cn.day}"
 
+    # 侧边栏计数（用未截断的全量数据）
+    sector_counts = {sid: len(lst) for sid, lst in articles_by_sector_all.items()}
+
     # 首页
     index_html = env.get_template("index.html").render(
         site_name=site_name, site_desc=site_desc, updated_at=now_str,
- base_path="/",
+        base_path="/",
         today=today_str, weekday_zh=weekday_zh, today_display=today_display, today_day=today_day,
         digest_lines=digest_lines, archive_days=archive_days,
         all_articles=all_articles, breaking=breaking, region_stats=region_stats,
         sectors=SECTOR_DEFS, articles_by_sector=articles_by_sector,
         articles_by_sector_all=articles_by_sector_all,
+        sector_counts=sector_counts,
         categories=CATEGORY_LABELS, CATEGORY_LABELS=CATEGORY_LABELS,
         articles_by_category=articles_by_category, category_icons=CATEGORY_ICONS,
         CATEGORY_ICONS=CATEGORY_ICONS,
@@ -457,10 +461,11 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
         sector_articles = [a for a in sector_all if a.get("sector") == sector_id]
         sector_html = env.get_template("sector.html").render(
             site_name=site_name, site_desc=site_desc, updated_at=now_str,
- base_path="/",
+            base_path="/",
             sector_id=sector_id, sector_label=sector_info["label"], sector_icon=sector_info["icon"],
             articles=sector_articles, region_stats=region_stats,
             sectors=SECTOR_DEFS, articles_by_sector=articles_by_sector_all,
+            sector_counts=sector_counts,
             CATEGORY_LABELS=CATEGORY_LABELS, CATEGORY_ICONS=CATEGORY_ICONS,
             all_articles=sector_all,  # 用于搜索
             current_sector=sector_id, current_region=None, current_category=None,
@@ -480,13 +485,14 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
         region_breaking = get_breaking_articles(conn, hours=72)
         region_html = env.get_template("region.html").render(
             site_name=site_name, site_desc=site_desc, updated_at=now_str,
- base_path="/",
+            base_path="/",
             region_key=region_key, region_label=region_data["label"],
             region_flag=region_data.get("flag", ""),
             articles=region_articles, breaking=region_breaking, region_stats=region_stats,
             categories=CATEGORY_LABELS, sectors=SECTOR_DEFS,
             CATEGORY_LABELS=CATEGORY_LABELS, CATEGORY_ICONS=CATEGORY_ICONS,
             articles_by_sector=articles_by_sector_all,
+            sector_counts=sector_counts,
             current_region=region_key, current_category=None,
             all_articles=region_articles,
             breaking_count=breaking_count,
@@ -501,12 +507,13 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
         _enrich_articles(cat_articles)
         cat_html = env.get_template("category.html").render(
             site_name=site_name, site_desc=site_desc, updated_at=now_str,
- base_path="/",
+            base_path="/",
             category_id=cat_id, category_label=cat_label,
             articles=cat_articles, region_stats=region_stats,
             categories=CATEGORY_LABELS, sectors=SECTOR_DEFS,
             CATEGORY_LABELS=CATEGORY_LABELS, CATEGORY_ICONS=CATEGORY_ICONS,
             articles_by_sector=articles_by_sector_all,
+            sector_counts=sector_counts,
             current_region=None, current_category=cat_id,
             all_articles=cat_articles,
             breaking_count=breaking_count,
@@ -518,11 +525,12 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
     _enrich_articles(breaking_all)
     breaking_html = env.get_template("breaking.html").render(
         site_name=site_name, site_desc=site_desc, updated_at=now_str,
- base_path="/",
+        base_path="/",
         articles=breaking_all, region_stats=region_stats,
         categories=CATEGORY_LABELS, sectors=SECTOR_DEFS,
         CATEGORY_LABELS=CATEGORY_LABELS, CATEGORY_ICONS=CATEGORY_ICONS,
         articles_by_sector=articles_by_sector_all,
+        sector_counts=sector_counts,
         all_articles=breaking_all, page_type="breaking",
         breaking_count=breaking_count,
     )
@@ -536,11 +544,13 @@ def build_site(config_path: str = "config/settings.yaml", db_path: str = None, o
             day_arts = get_articles_by_date(conn, d_entry["date"])
             _enrich_articles(day_arts)
             articles_by_sector_day = _group_by_sector(day_arts)
+            sector_counts_day = {sid: len(lst) for sid, lst in articles_by_sector_day.items()}
             day_html = env.get_template("date.html").render(
                 site_name=site_name, site_desc=site_desc, updated_at=now_str,
- base_path="/",
+                base_path="/",
                 date_label=d_entry["date"], weekday=d_entry["weekday_short"],
                 articles=day_arts, articles_by_sector=articles_by_sector_day,
+                sector_counts=sector_counts_day,
                 region_stats=region_stats,
                 categories=CATEGORY_LABELS, sectors=SECTOR_DEFS,
                 CATEGORY_LABELS=CATEGORY_LABELS, CATEGORY_ICONS=CATEGORY_ICONS,

@@ -33,7 +33,7 @@
     <a href="/sector/{{ sid }}.html" class="{% if current_sector == sid %}active{% endif %}">
      <span class="si-icon">{{ sinfo.icon }}</span>
      {{ sinfo.label }}
-     <span class="si-count">{{ articles_by_sector.get(sid, [])|length }}</span>
+     <span class="si-count">{{ sector_counts.get(sid, 0) }}</span>
     </a>
    </li>
    {% endfor %}
