@@ -5,6 +5,10 @@ set -e
 PROJECT_DIR="/home/user/workspace/b2b-hotel-news"
 cd "$PROJECT_DIR"
 
+# Use venv Python (has all dependencies installed)
+export PATH="$PROJECT_DIR/.venv/bin:$PATH"
+export PYTHONPATH="$PROJECT_DIR/.venv/lib/python3.11/site-packages:$PYTHONPATH"
+
 echo "🚀 B2B 旅游分销 - 开始更新"
 echo "📅 时间：$(date '+%Y-%m-%d %H:%M:%S')"
 
