@@ -28,3 +28,13 @@
 ✅ 完成！新增 15 条 | 数据库共 82 条（48h内 33 条）| 成功来源 2/10
 🏗️  构建网站...
 📤 推送到 GitHub...
+[master ed2ad03] chore: auto update 2026-05-09
+ 36 files changed, 167 insertions(+), 971 deletions(-)
+ create mode 100644 logs/2026-05-09.log
+To github.com:Achlysccc/b2b-travel-news.git
+   586ed59..ed2ad03  master -> master
+🚀 部署到 gh-pages...
+error: Your local changes to the following files would be overwritten by checkout:
+	logs/2026-05-09.log
+Please commit your changes or stash them before you switch branches.
+Aborting
