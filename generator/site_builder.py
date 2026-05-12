@@ -359,6 +359,8 @@ def _get_archive_days(conn, lookback_days: int = 60) -> dict:
     months = {}
     for r in rows:
         d = r["d"]
+        if d is None:
+            continue
         month_key = d[:7]
         day = d[8:]
         if month_key not in months:

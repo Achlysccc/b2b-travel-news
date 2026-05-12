@@ -24,7 +24,11 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 echo "📡 抓取新闻..."
 python3 crawler.py
 
-# 2. 构建网站
+# 2. AI 摘要生成
+echo "🤖 生成 AI 摘要..."
+python3 create_summaries.py
+
+# 3. 构建网站
 echo "🏗️  构建网站..."
 python3 -c "
 import sys
@@ -33,7 +37,7 @@ from generator.site_builder import build_site
 build_site()
 "
 
-# 3. 推送到 master（排除 output/ 和 logs/）
+# 4. 推送到 GitHub
 echo "📤 推送到 GitHub..."
 git add -A
 # Remove output/ and logs/ from staging to avoid pushing build artifacts to master
@@ -43,7 +47,7 @@ if ! git diff --quiet || ! git diff --cached --quiet; then
     git push origin master
 fi
 
-# 4. 部署到 gh-pages（clean 方式：只放构建产物）
+# 5. 部署到 gh-pages（clean 方式：只放构建产物）
 echo "🚀 部署到 gh-pages..."
 
 # 临时保存 output 路径
