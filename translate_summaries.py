@@ -56,7 +56,8 @@ def translate_batch(items):
             "temperature": 0.3
         }, timeout=120)
         result = resp.json()
-        content = result['choices'][0]['message']['content']
+        content = result['choices'][0]['message'].get('content') or \
+                  result['choices'][0]['message'].get('reasoning_content', '')
         start = content.find('[')
         end = content.rfind(']') + 1
         if start >= 0 and end > start:
