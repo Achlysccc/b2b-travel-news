@@ -2,14 +2,13 @@
 """RSS 爬虫 - 采集 B2B 旅游分销行业新闻
 只包含经过验证可访问的 RSS 源，降低超时避免卡死。
 """
-import feedparser, sqlite3, hashlib, os, sys, time
+import feedparser, sqlite3, hashlib, os, sys, time, time as time_module
 import requests
 from datetime import datetime, timezone, timedelta
 
 DB_PATH = os.environ.get("DB_PATH", "db/news.db")
 
 # 验证可访问的 RSS 源 (2026-05 测试)
-# 只保留 status=200 的源，其他跳过避免卡死
 VERIFIED_SOURCES = [
     # (url, name, region_key, label, flag, lang)
     ("https://skift.com/feed/", "Skift", "north-america", "北美", "🇺🇸", "en"),
@@ -29,6 +28,21 @@ HEADERS = {
     'Accept': 'application/rss+xml, application/xml, text/xml, */*',
 }
 
+# 全局时间戳：脚本开始时间，所有文章 published_at 用这个，避免每条时间不一致
+SCRIPT_START = datetime.now(timezone.utc)
+
+
+def parse_feed_time(entry) -> str:
+    """从 feedparser entry 提取可靠的时间戳，优先级：published_parsed > updated_parsed > now"""
+    # published_parsed 是 time.struct_time (UTC)，最可靠
+    if hasattr(entry, 'published_parsed') and entry.published_parsed:
+        return time_module.strftime('%Y-%m-%dT%H:%M:%S+00:00', entry.published_parsed)
+    if hasattr(entry, 'updated_parsed') and entry.updated_parsed:
+        return time_module.strftime('%Y-%m-%dT%H:%M:%S+00:00', entry.updated_parsed)
+    # fallback：用脚本启动时间
+    return SCRIPT_START.strftime('%Y-%m-%dT%H:%M:%S+00:00')
+
+
 def init_db():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
@@ -38,6 +52,7 @@ def init_db():
         published_at TEXT, fetched_at TEXT, fingerprint TEXT, is_processed INTEGER DEFAULT 0)""")
     conn.commit()
     return conn
+
 
 def fetch_feed(conn, url, name, region, label, flag, lang, timeout=8):
     try:
@@ -52,28 +67,25 @@ def fetch_feed(conn, url, name, region, label, flag, lang, timeout=8):
 
     cursor = conn.cursor()
     count = 0
-    cn_tz = timezone(timedelta(hours=8))
-    now = datetime.now(cn_tz)
+    fetched_at = datetime.now(timezone(timedelta(hours=8))).isoformat()
 
     for e in feed.entries[:20]:
         title = (e.get('title', '') or '')[:500]
         link = (e.get('link', '') or '')[:1000]
         summary = (e.get('summary', e.get('description', '')) or '')[:2000]
-        published = (e.get('published', '') or '')[:20]
+        published_at = parse_feed_time(e)
 
         if not title or not link:
             continue
 
-        fp = hashlib.md5(f"{title}{link}{published}".encode()).hexdigest()
-        if not published:
-            published = now.isoformat()
+        fp = hashlib.md5(f"{title}{link}".encode()).hexdigest()
 
         try:
             cursor.execute("""INSERT OR IGNORE INTO articles
                 (title,link,summary_original,lang,region,region_label,region_flag,
                  source_name,published_at,fetched_at,fingerprint,is_processed)
                 VALUES (?,?,?,?,?,?,?,?,?,?,?,0)""",
-                (title, link, summary, lang, region, label, flag, name, published, now.isoformat(), fp))
+                (title, link, summary, lang, region, label, flag, name, published_at, fetched_at, fp))
             if cursor.rowcount > 0:
                 count += 1
         except Exception as ex:
@@ -82,6 +94,7 @@ def fetch_feed(conn, url, name, region, label, flag, lang, timeout=8):
 
     conn.commit()
     return count
+
 
 def main():
     print("🚀 B2B 旅游分销 - 数据采集")
@@ -96,10 +109,10 @@ def main():
         total_new += c
         if c > 0:
             success += 1
-            print(f"  📡 {name}... ✅ {c}条 / 新增{c}条")
+            print(f"  📡 {name}... ✅ {c}条新增")
         else:
             print(f"  📡 {name}... ⚠️ 无内容")
-        time.sleep(0.5)  # Rate limiting
+        time.sleep(0.5)
 
     conn.close()
     print(f"")
