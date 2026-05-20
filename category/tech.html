@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>技术 - B2B旅游分销</title>
+ <link rel="stylesheet" href="/b2b-travel-news/static/style.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+</head>
+<body>
+
+
+<aside class="sidebar">
+<div class="sidebar-logo">
+ <span class="logo-icon">🏨</span>
+ <span class="logo-text">B2B旅游分销<span class="logo-sub">行业动态</span></span>
+ </div>
+
+ <div class="sidebar-section">
+ <a href="https://achlysccc.github.io/b2b-travel-news/" class="btn-home" target="_self">
+ 🏠 首页
+ </a>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">行业板块</div>
+  <ul class="sidebar-nav">
+   
+   <li class="sidebar-item">
+    <a href="sector/hotel.html" class="">
+     <span class="si-icon">🏨</span>
+     酒店
+     <span class="si-count">63</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/flight.html" class="">
+     <span class="si-icon">✈️</span>
+     机票
+     <span class="si-count">26</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/car.html" class="">
+     <span class="si-icon">🚗</span>
+     用车
+     <span class="si-count">5</span>
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="sector/travel.html" class="">
+     <span class="si-icon">🗺️</span>
+     旅游
+     <span class="si-count">89</span>
+    </a>
+   </li>
+   
+  </ul>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">内容分类</div>
+  <ul class="sidebar-nav">
+   
+   <li class="sidebar-item">
+    <a href="category/tech.html" class="active">
+     <span class="si-icon">💻</span>
+     技术
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/ma.html" class="">
+     <span class="si-icon">🤝</span>
+     并购
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/partnership.html" class="">
+     <span class="si-icon">🔗</span>
+     合作
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/policy.html" class="">
+     <span class="si-icon">📜</span>
+     政策
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/personnel.html" class="">
+     <span class="si-icon">👤</span>
+     人事
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/data.html" class="">
+     <span class="si-icon">📊</span>
+     数据
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="category/market.html" class="">
+     <span class="si-icon">📈</span>
+     市场
+    </a>
+   </li>
+   
+   <li class="sidebar-item">
+    <a href="breaking.html" class="">
+     <span class="si-icon">🚨</span>
+     突发
+     
+    </a>
+   </li>
+  </ul>
+ </div>
+
+ 
+ <div class="sidebar-section">
+  <div class="sidebar-label">地区</div>
+  <ul class="sidebar-nav">
+   <li class="sidebar-item" style="padding: 0 18px;">
+    <div class="regions-grid">
+     
+     <a href="region/latam.html" class="">
+      <span class="rg-flag">🇲🇽</span>拉美
+     </a>
+     
+     <a href="region/southeast-asia.html" class="">
+      <span class="rg-flag">🇸🇬</span>东南亚
+     </a>
+     
+     <a href="region/north-america.html" class="">
+      <span class="rg-flag">🇺🇸</span>北美
+     </a>
+     
+    </div>
+   </li>
+  </ul>
+ </div>
+</aside>
+
+
+<header class="topbar">
+ <a href="https://achlysccc.github.io/b2b-travel-news/" class="topbar-brand">B2B旅游分销</a>
+
+ 
+ <div class="search-bar">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="searchInput" placeholder="搜索公司/地区/关键词…" autocomplete="off">
+  <div class="search-results" id="searchResults"></div>
+ </div>
+
+ <div class="topbar-right">
+  <span class="topbar-stat">
+   <strong></strong> 条今日动态
+  </span>
+  <span class="topbar-time">2026-05-20 08:08</span>
+ </div>
+</header>
+
+
+<div class="main-wrapper">
+ <div class="page-content">
+  
+
+
+<div class="page-header">
+ <div class="page-header-flex">
+  <div>
+   <h1 class="page-title">
+    <span class="page-title-icon">💻</span>
+    技术 类动态
+   </h1>
+   <div class="page-subtitle">覆盖 7 天动态 · 按重要性排序</div>
+   <div class="page-meta">共 <strong>13</strong> 条动态</div>
+  </div>
+  <div style="font-size:40px;">💻</div>
+ </div>
+</div>
+
+
+<div class="filter-bar">
+ <div class="filter-group">
+  <span class="filter-label">重要度</span>
+  <button class="filter-btn active" data-filter="all" onclick="filterArticles(this, 'importance')">全部</button>
+  <button class="filter-btn" data-filter="high" onclick="filterArticles(this, 'importance')">★★★★ 五星</button>
+  <button class="filter-btn" data-filter="mid" onclick="filterArticles(this, 'importance')">★★★☆ 四星</button>
+  <button class="filter-btn" data-filter="low" onclick="filterArticles(this, 'importance')">★★☆☆☆ 三星</button>
+ </div>
+ <div class="filter-group">
+  <span class="filter-label">状态</span>
+  <button class="filter-btn breaking" data-filter="all" onclick="filterArticles(this, 'urgency')">全部</button>
+  <button class="filter-btn breaking" data-filter="breaking" onclick="filterArticles(this, 'urgency')">🔴 突发</button>
+  <button class="filter-btn" data-filter="today" onclick="filterArticles(this, 'urgency')">🟡 今日</button>
+ </div>
+</div>
+
+
+<div class="news-list" id="articleList">
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-hotel">🏨 酒店</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   
+   酒店行业被催促快速采用AI技术以提升效率和个性化服务，但专家警告称，对于系统碎片化的运营商而言，在基础设施未完善前盲目堆叠AI将付出高昂代价。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇺🇸 北美</span>
+<span>·</span>
+<span>LODGING</span>
+<span>·</span>
+<span>4天前</span>
+<span style="margin-left:auto;"><a href="https://lodgingmagazine.com/stacking-ai-on-broken-foundations-the-hotel-industrys-costly-mistake/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-hotel">🏨 酒店</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">Hotel Equities</span>：
+   酒店运营成本膨胀侵蚀业主利润。第三方管理公司Hotel Equities公开押注AI及其他技术为恢复盈利能力的最佳途径，CEO表示相关技术可有效提升业主利润率。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇺🇸 北美</span>
+<span>·</span>
+<span>Skift</span>
+<span>·</span>
+<span>6天前</span>
+<span style="margin-left:auto;"><a href="https://skift.com/2026/05/13/hotel-equities-ceo-heres-which-technologies-can-actually-lift-owner-margins/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-hotel">🏨 酒店</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">Ixigo</span>：
+   Ixigo联合CEO表示为应对ChatGPT等AI工具竞争，从零重建应用程序。旅游应用正面临压力，需超越简单的票价、客房和路线展示，转向帮助用户快速决策、减少使用摩擦，提升整体体验。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇺🇸 北美</span>
+<span>·</span>
+<span>Skift</span>
+<span>·</span>
+<span>6天前</span>
+<span style="margin-left:auto;"><a href="https://skift.com/2026/05/13/ixigos-ceo-says-he-rebuilt-his-app-from-scratch-to-fight-chatgpt/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-hotel">🏨 酒店</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">Tambourine, Hyatt Hotels Corporation</span>：
+   Tambourine与凯悦酒店集团合作推出数字婚礼策划平台Hyatt Wedding Guide，为新人提供线上婚礼策划和菜单选择服务，助力酒店婚礼业务数字化转型。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇸🇬 东南亚</span>
+<span>·</span>
+<span>Asian Hospitality</span>
+<span>·</span>
+<span>3天前</span>
+<span style="margin-left:auto;"><a href="https://www.asianhospitality.com/tambourine-hyatt-launch-wedding-planning-platform/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-flight">✈️ 机票</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">Aeropuertos del Sureste (Asur)</span>：
+   Asur确认坎昆国际机场启用20个E-Gates电子边检设备，目标总数达40个，旨在世界杯前提升旅客通关效率
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇲🇽 拉美</span>
+<span>·</span>
+<span>Reportur</span>
+<span>·</span>
+<span>3天前</span>
+<span style="margin-left:auto;"><a href="https://www.reportur.com/aerolineas/2026/05/16/aeropuerto-de-cancun-aceleran-la-puesta-de-40-e-gates-por-el-mundial/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-hotel">🏨 酒店</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">Actabl</span>：
+   Actabl获得美国专利，其技术可实现跨系统的酒店数据标准化，这将提升酒店运营效率和数据分析能力。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇸🇬 东南亚</span>
+<span>·</span>
+<span>Asian Hospitality</span>
+<span>·</span>
+<span>4天前</span>
+<span style="margin-left:auto;"><a href="https://www.asianhospitality.com/actabl-patents-data-normalization-tool/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-hotel">🏨 酒店</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">Actabl</span>：
+   酒店技术公司Actabl获得美国专利局授予的数据标准化工具专利，该工具可优化酒店数据处理流程，提升行业运营效率。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇸🇬 东南亚</span>
+<span>·</span>
+<span>Asian Hospitality</span>
+<span>·</span>
+<span>4天前</span>
+<span style="margin-left:auto;"><a href="https://www.asianhospitality.com/actabl-patents-hotel-data-normalization-tool/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">Safeture</span>：
+   旅游安全技术提供商Safeture推出覆盖全球各大陆的详细风险地图，提供免费下载。该平台为B2B企业差旅管理者提供实时风险评估工具，助力行程安全管理。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇬🇧 英国 &amp; 爱尔兰</span>
+<span>·</span>
+<span>Business Traveller UK</span>
+<span>·</span>
+<span>4天前</span>
+<span style="margin-left:auto;"><a href="https://www.businesstraveller.com/news/safeture-risk-maps-fur-jeden-kontinent/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">铁路12306</span>：
+   铁路12306于5月15日推出“敬”字票优惠，60岁及以上老年旅客在特定时段购买部分车次可享折上折。子女可通过平台协助父母订票，利好老年旅游市场。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇨🇳 中国</span>
+<span>·</span>
+<span>品橙旅游</span>
+<span>·</span>
+<span>4天前</span>
+<span style="margin-left:auto;"><a href="https://www.pinchain.com/article/346352" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   
+   商务旅行预订表面简单，实际背后存在过时系统、繁琐政策、审批流程和不完善技术，旅客越来越不愿忍受这些复杂性。行业需升级技术以改善预订体验。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇬🇧 英国 &amp; 爱尔兰</span>
+<span>·</span>
+<span>Business Traveller UK</span>
+<span>·</span>
+<span>5天前</span>
+<span style="margin-left:auto;"><a href="https://www.businesstraveller.com/insights/opinion-booking-business-trip-complicated/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   
+   沙特阿拉伯国家博物馆将在国际博物馆日举办三天文化项目，重点围绕社区联结与人工智能技术
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇬🇧 英国 &amp; 爱尔兰</span>
+<span>·</span>
+<span>Business Traveller UK</span>
+<span>·</span>
+<span>5天前</span>
+<span style="margin-left:auto;"><a href="https://www.businesstraveller.com/news/national-museum-of-saudi-arabia-to-host-cultural-programme/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">法国航空</span>：
+   法航宣布全面升级尊尚舱餐饮体验，推出全新菜单与服务，旨在提升高端客舱旅行体验，满足乘客对品质出行的期待。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇨🇳 中国</span>
+<span>·</span>
+<span>品橙旅游</span>
+<span>·</span>
+<span>6天前</span>
+<span style="margin-left:auto;"><a href="https://www.pinchain.com/article/346271" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+ <div class="news-list-item "
+      data-importance="mid" data-urgency="normal" data-imp="3">
+  <div class="nli-header">
+   <span class="nli-sector nli-sector-travel">🗺️ 旅游</span>
+   
+   
+<span class="nli-importance" style="margin-left:auto;">
+<span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#f59e0b;">★</span><span style="font-size:11px;color:#e5e7eb;">☆</span><span style="font-size:11px;color:#e5e7eb;">☆</span>
+<span style="font-size:10px;color:var(--text-muted);margin-left:2px;">3星</span>
+</span>
+  </div>
+  <div class="nli-body">
+   <span class="nli-company">GBTA</span>：
+   在GBTA亚太会议上，行业专家表示AI正在重塑企业旅游模式。传统在线采用率指标已过时，AI消除了线上线下预订的界限，标志着企业旅游管理向智能化转型的新阶段。
+  </div>
+<div class="nli-footer">
+<span class="nli-region">🇸🇬 东南亚</span>
+<span>·</span>
+<span>TTG Mice</span>
+<span>·</span>
+<span>6天前</span>
+<span style="margin-left:auto;"><a href="https://www.ttgmice.com/2026/05/13/ai-is-rewriting-the-corporate-travel-playbook-gbta-panellists/" target="_blank" class="source-link">阅读原文 ↗</a></span>
+</div>
+ </div>
+ 
+
+ 
+</div>
+
+<script>
+let currentImportance = 'all';
+let currentUrgency = 'all';
+
+function filterArticles(btn, type) {
+  btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (type === 'importance') currentImportance = btn.dataset.filter;
+  if (type === 'urgency') currentUrgency = btn.dataset.filter;
+  applyFilters();
+}
+
+function applyFilters() {
+  const items = document.querySelectorAll('.news-list-item');
+  items.forEach(item => {
+    const impLevel = item.dataset.importance;
+    const urgency = item.dataset.urgency;
+    let show = true;
+    if (currentImportance !== 'all' && impLevel !== currentImportance) show = false;
+    if (currentUrgency !== 'all' && urgency !== currentUrgency) show = false;
+    item.style.display = show ? '' : 'none';
+  });
+}
+</script>
+
+
+ </div>
+ <footer class="footer">
+  <span>B2B旅游分销</span>
+  <span>·</span>
+  <span>全球B2B旅游分销行业实时资讯聚合</span>
+  <span>·</span>
+  <span>每日 08:00 / 20:00 更新</span>
+ </footer>
+</div>
+
+<script>
+// 搜索功能（静态搜索）
+const articles = [
+
+ {title:"酒店行业被催促快速采用AI技术以提升效率和个性化服务，但专家警告称，对于系统碎片化的运营商而言，在基础设施未完善前盲目堆叠AI将付出高昂代价。", sector:"hotel", region:"北美", importance:3},
+
+ {title:"酒店运营成本膨胀侵蚀业主利润。第三方管理公司Hotel Equities公开押注AI及其他技术为恢复盈利能力的最佳途径，CEO表示相关技术可有效提升业主利润率。", sector:"hotel", region:"北美", importance:3},
+
+ {title:"Ixigo联合CEO表示为应对ChatGPT等AI工具竞争，从零重建应用程序。旅游应用正面临压力，需超越简单的票价、客房和路线展示，转向帮助用户快速决策、减少使用摩擦，提升整体体验。", sector:"hotel", region:"北美", importance:3},
+
+ {title:"Tambourine与凯悦酒店集团合作推出数字婚礼策划平台Hyatt Wedding Guide，为新人提供线上婚礼策划和菜单选择服务，助力酒店婚礼业务数字化转型。", sector:"hotel", region:"东南亚", importance:3},
+
+ {title:"Asur确认坎昆国际机场启用20个E-Gates电子边检设备，目标总数达40个，旨在世界杯前提升旅客通关效率", sector:"flight", region:"拉美", importance:3},
+
+ {title:"Actabl获得美国专利，其技术可实现跨系统的酒店数据标准化，这将提升酒店运营效率和数据分析能力。", sector:"hotel", region:"东南亚", importance:3},
+
+ {title:"酒店技术公司Actabl获得美国专利局授予的数据标准化工具专利，该工具可优化酒店数据处理流程，提升行业运营效率。", sector:"hotel", region:"东南亚", importance:3},
+
+ {title:"旅游安全技术提供商Safeture推出覆盖全球各大陆的详细风险地图，提供免费下载。该平台为B2B企业差旅管理者提供实时风险评估工具，助力行程安全管理。", sector:"travel", region:"英国 &amp; 爱尔兰", importance:3},
+
+ {title:"铁路12306于5月15日推出“敬”字票优惠，60岁及以上老年旅客在特定时段购买部分车次可享折上折。子女可通过平台协助父母订票，利好老年旅游市场。", sector:"travel", region:"中国", importance:3},
+
+ {title:"商务旅行预订表面简单，实际背后存在过时系统、繁琐政策、审批流程和不完善技术，旅客越来越不愿忍受这些复杂性。行业需升级技术以改善预订体验。", sector:"travel", region:"英国 &amp; 爱尔兰", importance:3},
+
+ {title:"沙特阿拉伯国家博物馆将在国际博物馆日举办三天文化项目，重点围绕社区联结与人工智能技术", sector:"travel", region:"英国 &amp; 爱尔兰", importance:3},
+
+ {title:"法航宣布全面升级尊尚舱餐饮体验，推出全新菜单与服务，旨在提升高端客舱旅行体验，满足乘客对品质出行的期待。", sector:"travel", region:"中国", importance:3},
+
+ {title:"在GBTA亚太会议上，行业专家表示AI正在重塑企业旅游模式。传统在线采用率指标已过时，AI消除了线上线下预订的界限，标志着企业旅游管理向智能化转型的新阶段。", sector:"travel", region:"东南亚", importance:3},
+
+];
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+if (searchInput) {
+ searchInput.addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  if (!q) { searchResults.classList.remove('open'); return; }
+  const matched = articles.filter(a => a.title.toLowerCase().includes(q)).slice(0, 8);
+  if (!matched.length) {
+   searchResults.innerHTML = '<div style="padding:14px 16px;color:#71717a;font-size:12px;">无结果</div>';
+   searchResults.classList.add('open');
+   return;
+  }
+  const sectorColors = {hotel:'sr-sector-hotel',flight:'sr-sector-flight',car:'sr-sector-car',travel:'sr-sector-travel'};
+  searchResults.innerHTML = matched.map(a => `
+   <div class="search-result-item" onclick="location.href='/b2b-travel-news/sector/'+a.sector+'.html'">
+    <div class="sr-title">${a.title}</div>
+    <div class="sr-meta">
+     <span class="sr-sector ${sectorColors[a.sector]||''}">${a.sector}</span>
+     ${a.region} · ${a.importance}星
+    </div>
+   </div>`).join('');
+  searchResults.classList.add('open');
+ });
+ document.addEventListener('click', e => {
+  if (!e.target.closest('.search-bar')) searchResults.classList.remove('open');
+ });
+}
+</script>
+
+</body>
+</html>
